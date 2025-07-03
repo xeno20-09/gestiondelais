@@ -16,6 +16,8 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 </head>
 
@@ -92,7 +94,7 @@
                 @elseif (Auth::user()->role == 'SUPER ADMIN')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('liste_users') }}">
-                            Gestion des Utilisateurs </a>
+                            <span class="menu-title"> Gestion des Utilisateurs</span> </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
@@ -268,6 +270,7 @@
 
 
 
+        @stack('scripts')
 
         {{--     </div>
  --}} <!-- page-body-wrapper ends -->
@@ -299,6 +302,25 @@
         <!-- Custom js for this page -->
         <script src="{{ asset('assets/js/dashboard.js') }}"></script>
         <!-- End custom js for this page -->
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#usersTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                    },
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                });
+            });
+        </script>
+
 </body>
 
 </html>

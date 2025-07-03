@@ -75,6 +75,8 @@ Route::prefix('/recours')
         Route::get('/form/change/user/info', [AdminController::class, 'change_mail'])->name('modify_users_info');
         Route::post('/post/form/change/user/info', [AdminController::class, 'post_form_modify_info'])->name('post_form_modify_info');
         Route::delete('/users/destroy', [AdminController::class, 'user_destroy'])->name('user_destroy');
+        Route::get('/add/user', [AdminController::class, 'add_user'])->name('form.add.user');
+        Route::post('post/user', [AdminController::class, 'post_user'])->name('post.user');
 
 
         // Routes crud structure

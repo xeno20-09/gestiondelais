@@ -15,12 +15,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Nom structure</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="structure_id">
-                                        <option value="">-- Sélectionner une structure --</option>
-                                        @foreach ($structures as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nom_structure }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" name="nom_structure"
+                                        value="{{ $section->structure->nom_structure }}" readonly />
                                 </div>
                             </div>
                         </div>
@@ -32,7 +28,6 @@
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="nom"
                                         value="{{ $section->nom_section }}" />
-
                                 </div>
                             </div>
                         </div>

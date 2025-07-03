@@ -50,24 +50,24 @@
                     @endif
                 </nav> 
                             @else
---}}
-                <nav>
-                    <li class="nav-item nav-profile dropdown border-0">
-                        <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
-                            <span class="profile-name">{{ Auth::user()->nom }} {{ Auth::user()->prenoms }}</span>
-                        </a>
-                        <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
-                            @if (Auth::user())
+--}} @if (Auth::user())
+                    <nav>
+                        <li class="nav-item nav-profile dropdown border-0">
+                            <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
+                                <span class="profile-name">{{ Auth::user()->nom }} {{ Auth::user()->prenoms }}</span>
+                            </a>
+                            <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
 
                                     <button type="submit" style="width: min-content"
                                         class=" dropdown-item btn btn-danger btn-sm">Deconnexion</button>
                                 </form>
-                            @endif
-                        </div>
-                    </li>
-                </nav>
+                            </div>
+                        </li>
+                    </nav>
+                @endif
+
             @endguest
         </header>
 
