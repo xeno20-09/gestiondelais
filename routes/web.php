@@ -22,6 +22,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('recours/get/liste/recours/instruires', [SecretaireController::class, 'getlisterecours'])->name('get_liste');
+Route::get('recours/get/detail/recours/instruires', [SecretaireController::class, 'getdetailrecours'])->name('get_detail');
+Route::get('recours/get/history/recours/instruires', [SecretaireController::class, 'gethistoryrecours'])->name('get_history_recours');
 
 Route::prefix('/recours')
     ->middleware(['auth', 'role:SECRETAIRE'])
@@ -36,14 +38,27 @@ Route::get('/recours/get/liste/recours/a_reaffectes', [PresidentController::clas
 Route::post('/recours/post/reaffecter/membre', [PresidentController::class, 'getmembrerefratore']);
 Route::post('/recours/post/form/recoursa_reaffectes', [PresidentController::class, 'postformrecours_a_reaffectes'])->name('post_form_reaffecte');
 
+
+Route::post('/recours/post/affecter/membre', [PresidentController::class, 'getmembre'])->name('affecter_membre');
+
 Route::prefix('/recours')
-    ->middleware(['auth', 'role:PCA,PCJ'])
+    ->middleware(['auth', 'role:PCA'])
+    ->name('pca.')
     ->group(function () {
-        Route::get('/home/president', [PresidentController::class, 'home']);
-        Route::get('/get/liste/recours/a_affectes', [PresidentController::class, 'getlisterecours_a_affectes'])->name('getlisterecours_a_affectes');
-        Route::get('/get/form/recours/a_affecte', [PresidentController::class, 'getformrecours_a_affecte'])->name('get_form_affecte');
-        Route::post('/post/affecter/membre', [PresidentController::class, 'getmembre']);
-        Route::post('/post/form/recours/a_affecte', [PresidentController::class, 'postformrecours_a_affecte'])->name('post_form_affecte');
+        Route::get('/home/president/ca', [PresidentController::class, 'home'])->name('home');
+        Route::get('/get/liste/recours/a_affectes/ca', [PresidentController::class, 'getlisterecours_a_affectes'])->name('getlisterecours_a_affectes');
+        Route::get('/get/form/recours/a_affecte/ca', [PresidentController::class, 'getformrecours_a_affecte'])->name('get_form_affecte');
+        Route::post('/post/form/recours/a_affecte/ca', [PresidentController::class, 'postformrecours_a_affecte'])->name('post_form_affecte');
+    });
+
+Route::prefix('/recours')
+    ->middleware(['auth', 'role:PCJ'])
+    ->name('pcj.')
+    ->group(function () {
+        Route::get('/home/president/cj', [PresidentController::class, 'home'])->name('home');
+        Route::get('/get/liste/recours/a_affectes/cj', [PresidentController::class, 'getlisterecours_a_affectes'])->name('getlisterecours_a_affectes');
+        Route::get('/get/form/recours/a_affecte/cj', [PresidentController::class, 'getformrecours_a_affecte'])->name('get_form_affecte');
+        Route::post('/post/form/recours/a_affecte/cj', [PresidentController::class, 'postformrecours_a_affecte'])->name('post_form_affecte');
     });
 
 
@@ -57,12 +72,11 @@ Route::prefix('/recours')
         // Routes crud mesure_instructions
         Route::resource('mesure_instructions', MesureInstructionsController::class)->parameters(['mesure_instructions' => 'instruction:id']);
     });
-
 Route::prefix('/recours')
     ->middleware(['auth', 'role:GREFFIER'])
     ->group(function () {
         Route::get('/home/greffier', [GreffierController::class, 'home']);
-        Route::get('/get/liste/recours/en_instructions', [GreffierController::class, 'getlisterecours_en_instructions']);
+        Route::get('/get/liste/recours/en_instructions', [GreffierController::class, 'getlisterecours_en_instructions'])->name('getlisterecours_en_instructions');
         Route::get('/get/form/recours/en_instruction', [GreffierController::class, 'getformrecours_en_instruction'])->name('get_form_instruction');
         Route::post('/post/form/recours/en_instruction', [GreffierController::class, 'postformrecours_en_instruction'])->name('post_form_instruction');
     });
@@ -97,6 +111,19 @@ Route::get('/unauthorized', function () {
     return response()->view('errors.403', [], 403);
 })->name('unauthorized');
 
-Auth::routes();
+Route::get('/not-found', function () {
+    return response()->view('errors.404', [], 404);
+})->name('notfound');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/server-error', function () {
+    return response()->view('errors.500', [], 500);
+})->name('servererror');
+
+Route::get('/server-error', function () {
+    return response()->view('errors.419', [], 419);
+})->name('servererror');
+
+
+//Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

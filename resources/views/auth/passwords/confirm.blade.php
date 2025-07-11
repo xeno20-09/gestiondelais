@@ -1,51 +1,148 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation du mot de passe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Confirmez votre mot de passe') }}</div>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-                    <div class="card-body">
-                        {{ __('Veuillez confirmer votre mot de passe avant de continuer.') }}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-                        <form method="POST" action="{{ route('password.confirm') }}">
-                            @csrf
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-                            <div class="row mb-3">
-                                <label for="password" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
+        .card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.4s ease-in-out;
+        }
 
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
+        .card h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
 
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+        .card p {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+        }
 
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Confirmer le mot de passe
-                                    </button>
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
 
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            Mot de passe oublié ?
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .invalid-feedback {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Confirmer le mot de passe</h2>
+        <p>Veuillez confirmer votre mot de passe avant de continuer.</p>
+
+        <form method="POST" action="{{ route('password.confirm') }}">
+            @csrf
+
+            <input id="password" type="password"
+                class="form-control @error('password') is-invalid @enderror"
+                name="password" required placeholder="Mot de passe"
+                autocomplete="current-password">
+
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
+            <button type="submit" class="btn">Confirmer</button>
+
+            @if (Route::has('password.request'))
+                <a class="btn-link" href="{{ route('password.request') }}">
+                    Mot de passe oublié ?
+                </a>
+            @endif
+        </form>
     </div>
-@endsection
+
+</body>
+</html>

@@ -30,15 +30,23 @@
 
                                     <td>
                                         <div class="badge badge-inverse-danger">
-                                            <a href="">Détail</a>
+                                            <a href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="badge badge-inverse-danger">
-                                            <a
-                                                href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}">Reaffectés</a>
+                                            <a href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
                                         </div>
                                     </td>
+                                    @if (Auth::user()->role == 'PCA' || Auth::user()->role == 'PCJ')
+                                        <td>
+                                            <div class="badge badge-inverse-danger">
+                                                <a
+                                                    href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}">Reaffectés</a>
+                                            </div>
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @empty
                                 <tr>

@@ -22,7 +22,7 @@ class Recours extends Model
         'structure_id',
         'section_id',
         'numero_dossier',
-        'objet',
+        'objet_id',
         'etat_dossier',
         'dossier_clos',
         'date_enregistrement',
@@ -34,6 +34,11 @@ class Recours extends Model
     {
         return $this->belongsTo(Section::class);
     }
+
+    public function objet()
+    {
+        return $this->belongsTo(Objet::class);
+    }
     public function structure()
     {
         return $this->belongsTo(Structure::class);
@@ -44,7 +49,6 @@ class Recours extends Model
     }
     public function mouvements()
     {
-
         return $this->hasMany(Mouvement::class);
     }
 

@@ -22,6 +22,7 @@ class Mouvement extends Model
         'date_debut_instruction',
         'date_fin_instruction',
         'date_debut_notification',
+        'date_execution',
         'etat_instruction',
         'observation',
 

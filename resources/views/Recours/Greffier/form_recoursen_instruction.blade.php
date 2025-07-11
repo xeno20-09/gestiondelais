@@ -123,11 +123,17 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date de notification</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="date_notification" />
+                                    @if ($recours->lastMouvement->etat_instruction == 'Contacté')
+                                        <input type="text" class="form-control" name="date_notification"
+                                            value="{{ $recours->lastMouvement->date_debut_notification }}" />
+                                    @elseif($recours->lastMouvement->etat_instruction != 'Contacté')
+                                        <input type="date" class="form-control" name="date_notification" />
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -135,7 +141,11 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Observation</label>
                                 <div class="col-sm-9">
-                                    <textarea class="form-control" id="exampleTextarea1" name="observation" rows="4"></textarea>
+                                    <textarea class="form-control" id="exampleTextarea1" name="observation" rows="8">
+                                        @isset($recours->lastMouvement->observation)
+{{ $recours->lastMouvement->observation }}
+@endisset
+                                   </textarea>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +153,7 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <button class="btn btn-primary">Eécuter</button>
+                            <button class="btn btn-primary">Exécuter</button>
                         </div>
                     </div>
                 </form>

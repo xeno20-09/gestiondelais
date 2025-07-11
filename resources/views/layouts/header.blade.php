@@ -6,14 +6,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Breeze Admin</title>
+    <title>E-délais</title>
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/illustration.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}" />
     <!-- DataTables CSS -->
@@ -47,78 +47,120 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/') }}">
+                    <a class="nav-link" href="{{ url('/recours/home/' . strtolower(Auth::user()->role)) }}">
+                        @if (Auth::user()->role == 'SUPER ADMIN')
+                            <a class="nav-link" href="{{ url('/recours/home/admin') }}">
+                        @endif
                         <i class="mdi mdi-home menu-icon"></i>
                         <span class="menu-title">Tableau de bord</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('get_liste') }}">
-                        Liste des recours
-                    </a>
-                </li>
+
                 @if (Auth::user()->role == 'SECRETAIRE')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('form.recours.create') }}">
-                            Créer un recours
+                            <i class="mdi mdi-plus-circle menu-icon"></i>
+                            <span class="menu-title">Créer un recours</span>
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'PCA' || Auth::user()->role == 'PCJ')
+                @elseif (Auth::user()->role == 'PCA')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('getlisterecours_a_affectes') }}">
+                        <a class="nav-link" href="{{ route('pca.getlisterecours_a_affectes') }}">
+                            <i class="mdi mdi-shield menu-icon"></i>
+                            <span class="menu-title">Affecter des recours</span>
+                            <span class="badge badge-danger text-white ml-2">
+                                {{--                                 {{count($recours)}}
+ --}} </span>
+                        </a>
+                    </li>
+                @elseif (Auth::user()->role == 'PCJ')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pcj.getlisterecours_a_affectes') }}">
                             Affecter des recours
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'CONSEILLER')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('get_liste_instruire') }}">
-                            Donner une instruction
+                            <i class="mdi mdi-paperclip menu-icon"></i>
+                            <span class="menu-title">Donner une instruction</span>
+
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('mesure_instructions.create') }}">
-                            Ajouter une mesures
+                            <i class="mdi mdi-plus-circle menu-icon"></i>
+                            <span class="menu-title">Ajouter une mesure</span>
+
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('mesure_instructions.index') }}">
-                            Liste des mesures
+                            <i class="mdi mdi-view-list menu-icon"></i>
+                            <span class="menu-title">Liste des mesures</span>
+
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'GREFFIER')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('getlisterecours_en_instructions') }}">
-                            Executer une mesure
+                            <i class="mdi mdi-play menu-icon"></i>
+                            <span class="menu-title">Exécuter une mesure</span>
+
                         </a>
                     </li>
                 @elseif (Auth::user()->role == 'SUPER ADMIN')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('liste_users') }}">
-                            <span class="menu-title"> Gestion des Utilisateurs</span> </a>
+                            <i class="mdi mdi-account-switch menu-icon"></i>
+                            <span class="menu-title">Gestion des Utilisateurs</span>
+                        </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
-                            <span class="menu-title">Parametres</span>
+                            <i class="mdi mdi-settings menu-icon"></i>
+                            <span class="menu-title">Paramètres</span>
                             <i class="menu-arrow"></i>
                         </a>
+
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('structures.index') }}">Gestion structures</a>
+                                    <a class="nav-link" href="{{ route('structures.index') }}">
+                                        <i class="mdi mdi-home-modern menu-icon"></i>
+                                        <span class="menu-title">Gestion structures</span>
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('sections.index') }}">Gestion sections</a>
+                                    <a class="nav-link" href="{{ route('sections.index') }}">
+                                        <i class="mdi mdi-ungroup menu-icon"></i>
+                                        <span class="menu-title">Gestion sections</span>
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('roles.index') }}">Gestion roles</a>
+                                    <a class="nav-link" href="{{ route('roles.index') }}">
+                                        <i class="mdi mdi-tag-multiple menu-icon"></i>
+                                        <span class="menu-title">
+                                            Gestion rôles
+                                        </span>
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('titres.index') }}">Gestion titres</a>
+                                    <a class="nav-link" href="{{ route('titres.index') }}">
+                                        <i class="mdi mdi-security menu-icon"></i>
+                                        <span class="menu-title">
+                                            Gestion titres
+                                        </span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
+
                     {{--     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#uit-basic" aria-expanded="false"
                             aria-controls="ui-basic">
@@ -145,14 +187,17 @@
                 @endif
 
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('get_liste') }}">
+                        <i class="mdi mdi-folder menu-icon"></i>
+                        <span class="menu-title">Liste des recours</span>
+                    </a>
+                </li>
 
 
                 <li class="nav-item sidebar-actions">
                     <div class="nav-link">
                         <div class="mt-4">
-                            <div class="border-none">
-                                <p class="text-black">Notification</p>
-                            </div>
                             <ul class="mt-4 pl-0">
                                 @if (Auth::user())
                                     <form action="{{ route('logout') }}" method="post">
@@ -161,7 +206,6 @@
                                             class="btn btn-danger btn-sm">Deconnexion</button>
                                     </form>
                                 @endif
-
                             </ul>
                         </div>
                     </div>
@@ -237,9 +281,6 @@
                                 <span class="profile-name">{{ Auth::user()->nom }} {{ Auth::user()->prenoms }}</span>
                             </a>
 
-
-
-
                             <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
                                 @if (Auth::user())
                                     <form action="{{ route('logout') }}" method="post">
@@ -270,7 +311,6 @@
 
 
 
-        @stack('scripts')
 
         {{--     </div>
  --}} <!-- page-body-wrapper ends -->

@@ -30,12 +30,15 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         $user = Auth::user();
-
-        return match ($user->titre) {
-            'PRESIDENT DE STRUCTURE' => 'recours/home/president',
+        /* /home/president
+/home/conseiller
+/home/greffier */
+        return match ($user->role) {
+            'PCA' => 'recours/get/liste/recours/a_affectes/ca',
+            'PCJ' => 'recours/get/liste/recours/a_affectes/cj',
             'AUDITEUR'               => 'recours/home/auditeur',
-            'CONSEILLER'             => 'recours/home/conseiller',
-            'GREFFIER'               => 'recours/home/greffier',
+            'CONSEILLER'             => 'recours/get/liste/recours/a_instruires',
+            'GREFFIER'               => 'recours/get/liste/recours/en_instructions',
             'SECRETAIRE'             => 'recours/home/secretaire',
             'SUPER ADMIN'            => 'recours/home/admin',
             default                  => 'recours/home/default',

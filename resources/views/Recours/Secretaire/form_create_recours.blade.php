@@ -36,6 +36,18 @@
                         </div> --}}
                         <div class="col-md-6">
                             <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Objet</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="objet_id" required>
+                                        @foreach ($objets as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Chambre</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="chambre_id" required>
@@ -131,7 +143,8 @@
                             <div class="form-group row requerant">
                                 <label class="col-sm-3 col-form-label">Domicile du défendeur</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="domicile_defendeur" placeholder="" />
+                                    <input type="text" class="form-control" name="domicile_defendeur"
+                                        placeholder="" />
                                 </div>
                             </div>
                         </div>

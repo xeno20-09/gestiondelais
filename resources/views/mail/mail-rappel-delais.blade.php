@@ -281,40 +281,43 @@
                                                                 <strong>Dernier jour !</strong> Aujourd'hui est le
                                                                 dernier jour d'éxecution
                                                                 de la mesure d'instruction créée le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_notification }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                             @elseif($joursRestants == 1)
                                                                 <strong>Dernier rappel !</strong> Il ne reste
                                                                 plus
                                                                 que <strong>1 jour</strong> pour l'éxecution de la
                                                                 mesure d'instruction créée
                                                                 le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_notification }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                                 La date
                                                                 limite
                                                                 est le
-                                                                <strong>{{ $recours->lastMouvement->date_fin_instruction }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                             @elseif($joursRestants <= 3)
                                                                 <strong>Rappel important !</strong> Il ne reste
                                                                 plus que <strong>{{ $joursRestants }}
                                                                     jours</strong>
                                                                 pour l'éxecution de la
                                                                 mesure d'instruction créée le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_notification }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                                 La date
                                                                 limite
                                                                 est le
-                                                                <strong>{{ $recours->lastMouvement->date_fin_instruction }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                             @else
                                                                 <strong>Rappel</strong> : Il reste
                                                                 <strong>{{ $joursRestants }} jours</strong> pour
                                                                 l'éxecution de la
                                                                 mesure
                                                                 d'instruction créée le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_notification }}</strong>.
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                                 La date
                                                                 limite
                                                                 est le
-                                                                <strong>{{ $recours->lastMouvement->date_fin_instruction }}</strong>.
+
+
+
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
                                                             @endif
 
 

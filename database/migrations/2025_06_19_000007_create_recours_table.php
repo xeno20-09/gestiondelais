@@ -17,6 +17,8 @@ return new class extends Migration
             // Clés étrangères
             $table->unsignedBigInteger('structure_id')->nullable();
             $table->unsignedBigInteger('section_id')->nullable();
+            $table->unsignedBigInteger('objet_id')->nullable();
+
 
 
             // Autres champs
@@ -25,7 +27,6 @@ return new class extends Migration
             $table->boolean('dossier_clos')->default(false);
             $table->dateTime('date_enregistrement')->nullable();
             $table->dateTime('date_clos')->nullable();
-            $table->string('objet')->nullable()->default('null');
             $table->string('observation')->nullable()->default('null');
 
             $table->timestamps();
@@ -33,6 +34,7 @@ return new class extends Migration
             // Contraintes de clés étrangères
             $table->foreign('structure_id')->references('id')->on('structures')->onDelete('cascade');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->foreign('objet_id')->references('id')->on('objets')->onDelete('cascade');
         });
     }
 

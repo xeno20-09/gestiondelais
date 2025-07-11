@@ -6,10 +6,8 @@ use Carbon\Carbon;
 use App\Models\Mouvement;
 use App\Mail\MailRappelDelais;
 use Illuminate\Console\Command;
-use function Laravel\Prompts\info;
-
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class notificationinstructiondelais extends Command
 {
@@ -32,19 +30,30 @@ class notificationinstructiondelais extends Command
      */
     public function handle()
     {
-        info('Rappel le:' . now());
-        $today = Carbon::today();
 
-        $mouvements = Mouvement::where('etat_instruction', 'Contacté')
-            ->whereDate('date_fin_instruction', '<', $today)
-            ->get();
+        try {
+            $today = Carbon::today();
 
-        foreach ($mouvements as $mouvement) {
-            $dateFin = Carbon::parse($mouvement->date_fin_instruction);
-            $joursRestants = $today->diffInDays($dateFin, false);
-            $this->getMessage($joursRestants, $mouvement, $dateFin);
+            $mouvements = Mouvement::where('etat_instruction', 'Contacté')
+                ->whereDate('date_fin_instruction', '<', $today)
+                ->get();
+
+            foreach ($mouvements as $mouvement) {
+                try {
+                    $dateFin = Carbon::parse($mouvement->date_fin_instruction);
+                    $joursRestants = $today->diffInDays($dateFin, false);
+
+                    $this->getMessage($joursRestants, $mouvement, $dateFin);
+                } catch (\Throwable $e) {
+                    Log::error('Erreur sur un mouvement : ' . $e->getMessage());
+                }
+            }
+
+            return Command::SUCCESS;
+        } catch (\Throwable $e) {
+            Log::error('Erreur générale dans NotificationInstructionDelais : ' . $e->getMessage());
+            return Command::FAILURE;
         }
-        return Command::SUCCESS;
     }
 
     /**
@@ -56,15 +65,15 @@ class notificationinstructiondelais extends Command
             $joursRestants = ($joursRestants * (-1));
         }
         $partie = $mouvement->recours->partie;
-        Mail::to($partie->greffier->email)->send(
+        /* Mail::to( $partie->greffier->email 'allegressecakpo93@gmail.com')->send(
             new MailRappelDelais(
                 $mouvement->recours,
                 $partie->greffier,
                 $joursRestants
             )
-        );
+        );*/
 
-        Mail::to($partie->conseiller->email)->send(
+        Mail::to(/* $partie->conseiller->email */'allegressecakpo93@gmail.com')->send(
             new MailRappelDelais(
                 $mouvement->recours,
                 $partie->conseiller,
@@ -72,7 +81,7 @@ class notificationinstructiondelais extends Command
             )
         );
 
-        Mail::to($partie->auditeur->email)->send(
+        Mail::to(/* $partie->auditeur->email */'adelecakpo150@gmail.com')->send(
             new MailRappelDelais(
                 $mouvement->recours,
                 $partie->auditeur,

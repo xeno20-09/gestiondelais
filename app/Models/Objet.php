@@ -18,4 +18,5 @@ class Objet extends Model
     protected $fillable = [
         'nom',
     ];
+
 }

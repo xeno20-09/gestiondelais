@@ -253,26 +253,38 @@
                                                                 Nous vous informons que la mesure
                                                                 :{{ $recours->lastMouvement->instruction->nom }}
                                                                 a été initiée le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_instruction }}</strong>.Le
+                                                                <strong>
+                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
+                                                                </strong>.Le
                                                                 requerant {{ $recours->partie->requerant->nom_complet }}
                                                                 à
                                                                 été notifié le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_notification }}</strong>
-                                                                elle prendra donc fin le
-                                                                <strong>{{ $recours->lastMouvement->date_fin_instruction }}</strong>
-                                                            @elseif($recours->etat_dossier == 'Inachevée')
-                                                                Nous vous informons que le greffier
-                                                                :{{ $recours->partie->greffier->nom }}
-                                                                {{ $recours->partie->greffier->prenoms }}
-                                                                a essayé de notifier à plusieur reprise le requerant
-                                                                {{ $recours->partie->requerant->nom_complet }}
-                                                                suite à la mesure d'instruction
-                                                                {{ $recours->lastMouvement->instruction->nom }} que le
-                                                                conseiller {{ $recours->partie->conseiller->nom }}
-                                                                {{ $recours->partie->conseiller->prenoms }} a initiée
-                                                                le
-                                                                <strong>{{ $recours->lastMouvement->date_debut_instruction }}</strong>
-                                                                , sans suite de sa part.
+                                                                <strong>
+                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
+                                                                    elle prendra donc fin le
+                                                                    <strong>
+                                                                        {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
+                                                                        </strongstrong>
+                                                                    @elseif($recours->etat_dossier == 'Inachevée')
+                                                                        Nous vous informons que le greffier
+                                                                        :{{ $recours->partie->greffier->nom }}
+                                                                        {{ $recours->partie->greffier->prenoms }}
+                                                                        a essayé de notifier à plusieur reprise le
+                                                                        requerant
+                                                                        {{ $recours->partie->requerant->nom_complet }}
+                                                                        suite à la mesure d'instruction
+                                                                        {{ $recours->lastMouvement->instruction->nom }}
+                                                                        que
+                                                                        le
+                                                                        conseiller
+                                                                        {{ $recours->partie->conseiller->nom }}
+                                                                        {{ $recours->partie->conseiller->prenoms }}
+                                                                        a
+                                                                        initiée
+                                                                        le
+                                                                        <strong>
+                                                                            {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
+                                                                            , sans suite de sa part.
                                                             @endif
                                                         </p>
                                                         <table class="s-4 w-full" role="presentation" border="0"

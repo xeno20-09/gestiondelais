@@ -31,8 +31,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Objet</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="{{ $recours->objet }}" name="objet"
-                                        placeholder="" readonly />
+                                    <input type="text" class="form-control" value="{{ $recours->objet->nom }}"
+                                        name="objet" placeholder="" readonly />
                                 </div>
                             </div>
                         </div>

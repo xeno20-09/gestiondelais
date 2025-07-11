@@ -36,22 +36,24 @@
                                             @endif
                                         </div>
                                     </td>
+
                                     <td>
-                                        <div class="dropdown">
-                                        {{--     <button class="btn btn-sm ml-3 btn-success dropdown-toggle" type="button"
-                                                id="dropdownMenuOutlineButton5" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Voir
-                                            </button> --}}
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton5">
-                                                <h6 class="dropdown-header">Actions</h6>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('get_form_instruire', ['id' => $item->id]) }}">
-                                                    Ajouter une mesure
-                                                </a>
-                                            </div>
+                                        <div class="badge badge-inverse-danger">
+                                            <a href="{{ route('get_form_instruire', ['id' => $item->id]) }}">Ajouter une
+                                                mesure</a>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="badge badge-inverse-danger">
+                                            <a href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-inverse-danger">
+                                            <a href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
+                                        </div>
+                                    </td>
+
                                 </tr>
                             @empty
                                 <tr>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('mouvement_id');
             $table->string('destinataire');
-            $table->string('envoyee')->nullable();
+            $table->string('message')->nullable();
             $table->timestamps();
 
             // Clé étrangère vers dossier

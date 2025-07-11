@@ -18,7 +18,7 @@ class Notification extends Model
     protected $fillable = [
         'mouvement_id',
         'destinataire',
-        'envoyee',
+        'message',
     ];
 
     public function mouvement()
