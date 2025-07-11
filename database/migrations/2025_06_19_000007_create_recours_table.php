@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('numero_dossier')->unique();
             $table->string('etat_dossier')->nullable();
             $table->boolean('dossier_clos')->default(false);
-            $table->dateTime('date_enregistrement')->nullable();
-            $table->dateTime('date_clos')->nullable();
+            $table->date('date_enregistrement')->nullable();
+            $table->date('date_clos')->nullable();
             $table->string('observation')->nullable()->default('null');
 
             $table->timestamps();

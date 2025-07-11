@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('recours_id')->nullable();
             $table->unsignedBigInteger('instruction_id')->nullable();
-            $table->dateTime('date_debut_instruction')->nullable();
-            $table->dateTime('date_debut_notification')->nullable();
-            $table->dateTime('date_fin_instruction')->nullable();
-            $table->dateTime('date_execution')->nullable();
+            $table->date('date_debut_instruction')->nullable();
+            $table->date('date_debut_notification')->nullable();
+            $table->date('date_fin_instruction')->nullable();
+            $table->date('date_execution')->nullable();
             $table->string('observation')->nullable();
             $table->enum('etat_instruction', ['Executée', 'Contacté', 'Inachevée', 'Initiée', 'Non Contacté'])->nullable();
             $table->enum('communique_au', ['Deux parties', 'Réquerant', 'Défendeur'])->nullable();
