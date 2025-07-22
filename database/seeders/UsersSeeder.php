@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -501,8 +502,26 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach ($users as $user) {
-            User::create($user);
+
+
+        foreach ($users as $data) {
+            // Créer le rôle s'il n'existe pas
+            $role = Role::firstOrCreate(['name' => $data['role']]);
+
+            // Créer ou récupérer l'utilisateur
+            $user = User::firstOrCreate(
+                ['email' => $data['email']],
+                $data
+            );
+
+            // Attribuer le rôle
+            if (!$user->hasRole($role->name)) {
+                $user->assignRole($role->name);
+            }
         }
+
+/*         foreach ($users as $user) {
+            User::create($user);
+        } */
     }
 }

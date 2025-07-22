@@ -9,27 +9,27 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailInstructionInachevee extends Mailable
+class FirstMailUserInstruction extends Mailable
 {
     use Queueable, SerializesModels;
 
     public  $recours;
     public  $user;
 
+
+
     public function __construct($recours, $user)
     {
         $this->recours = $recours;
         $this->user = $user;
     }
-
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Non execution de l\'instruction' . ' ' . 'du dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
+            subject: 'Nouvelle Notification' . ' ' . 'du dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
         );
     }
 
@@ -39,7 +39,7 @@ class MailInstructionInachevee extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.mail-instruction-inachevee',
+            markdown: 'mail.first-mail-user-instruction',
         );
     }
 

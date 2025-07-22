@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('avocat_defendeurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom_complet')->nullable();
+                        $table->string('email')->nullable();
+
             $table->string('type')->nullable();
             $table->timestamps();
         });

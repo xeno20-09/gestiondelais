@@ -6,7 +6,8 @@
                 <h4 class="card-title">Formulaire d'enregistrement d'un titre
 
                 </h4>
-                <form class="form-sample" method="POST" action="{{ route('titres.update', $titre->id) }}">
+               @can('titre-update')
+                    <form class="form-sample" method="POST" action="{{ route('titres.update', $titre->id) }}">
                     @csrf
                     @method('PUT')
                     <!--  -->
@@ -29,6 +30,7 @@
                         </div>
                     </div>
                 </form>
+               @endcan
             </div>
         </div>
     </div>

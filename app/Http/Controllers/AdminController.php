@@ -10,11 +10,22 @@ use App\Models\Structure;
 use App\Models\UserTitre;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
+
+   function __construct()
+    {
+                 $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['home']]);
+
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
 
     public function home()
     {
@@ -26,11 +37,13 @@ class AdminController extends Controller
     public function change_mail(Request $request)
     {
         $user_info = User::find($request->id);
-        $roles = UserRole::all();
+        $role = Role::with('permissions')->where('name', $user_info['role'])->first();
+
+        $roles = Role::get();
         $titres = UserTitre::all();
         $structures = Structure::all();
         $sections = Section::all();
-        return view('Recours.Admin.reset_user_info', compact('user_info', 'roles', 'titres', 'structures', 'sections'));
+        return view('Recours.Admin.reset_user_info', compact('user_info', 'roles','role', 'titres', 'structures', 'sections'));
     }
     public function add_user()
     {

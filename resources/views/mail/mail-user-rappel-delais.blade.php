@@ -64,6 +64,35 @@
             border-collapse: collapse
         }
 
+        @media screen and (max-width: 480px) {
+            table.card {
+                border-radius: 16px !important;
+            }
+
+            td {
+                padding: 20px 15px !important;
+            }
+
+            h3 {
+                font-size: 24px !important;
+            }
+
+            table.w-full tr td {
+                display: block !important;
+                width: 100% !important;
+                text-align: left !important;
+                padding: 8px 0 !important;
+            }
+
+            table.w-full tr td:first-child {
+                padding-top: 12px !important;
+            }
+
+            table.w-full tr td:last-child {
+                padding-bottom: 12px !important;
+            }
+        }
+
         @media screen and (max-width: 600px) {
 
             .w-lg-48,
@@ -225,7 +254,7 @@
                                                                 @php
                                                                     $genre = 'Mr';
                                                                 @endphp
-                                                            @else
+                                                            @elseif ($user->sexe == 'Femme')
                                                                 @php
                                                                     $genre = 'Mme';
                                                                 @endphp
@@ -247,25 +276,51 @@
                                                         <p class=""
                                                             style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;"
                                                             align="left">
-                                                            Nous vous informons que la mesure d'instruction
-                                                            <strong>{{ $recours->lastMouvement->instruction->nom }}</strong>
-                                                            concernant le dossier
-                                                            <strong>{{ $recours->numero_dossier }}</strong>
-                                                            a été exécutée avec succès le
-                                                            <strong>
-                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                            </strong>.
-                                                        </p>
-                                                        <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 10px 0 0 0;"
-                                                            align="left">
-                                                            Cette instruction avait été initiée le
-                                                            <strong>
-                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                            </strong>
-                                                            et notifiée au requérant
-                                                            <strong>{{ $recours->partie->requerant->nom_complet }}</strong>
-                                                            le
-                                                            <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}</strong>.
+
+                                                            @if ($joursRestants == 0)
+                                                                <strong>Dernier jour !</strong> Aujourd'hui est le
+                                                                dernier jour d'éxecution
+                                                                de la mesure d'instruction créée le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                            @elseif($joursRestants == 1)
+                                                                <strong>Dernier rappel !</strong> Il ne reste
+                                                                plus
+                                                                que <strong>1 jour</strong> pour l'éxecution de la
+                                                                mesure d'instruction créée
+                                                                le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                                La date
+                                                                limite
+                                                                est le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                            @elseif($joursRestants <= 3)
+                                                                <strong>Rappel important !</strong> Il ne reste
+                                                                plus que <strong>{{ $joursRestants }}
+                                                                    jours</strong>
+                                                                pour l'éxecution de la
+                                                                mesure d'instruction créée le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                                La date
+                                                                limite
+                                                                est le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                            @else
+                                                                <strong>Rappel</strong> : Il reste
+                                                                <strong>{{ $joursRestants }} jours</strong> pour
+                                                                l'éxecution de la
+                                                                mesure
+                                                                d'instruction créée le
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                                La date
+                                                                limite
+                                                                est le
+
+
+
+                                                                <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
+                                                            @endif
+
+
                                                         </p>
                                                         <table class="s-4 w-full" role="presentation" border="0"
                                                             cellpadding="0" cellspacing="0" style="width: 100%;"
@@ -293,24 +348,24 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <table class="card rounded-3xl px-4 py-8 p-lg-10"
-                                                        role="presentation" border="0" cellpadding="0"
-                                                        cellspacing="0"
-                                                        style="border-radius: 24px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;"
-                                                        bgcolor="#ffffff">
+                                                    <table class="card" role="presentation" border="0"
+                                                        cellpadding="0" cellspacing="0"
+                                                        style="border-radius: 24px; width: 100%; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; background-color: #ffffff;">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="line-height: 24px; font-size: 16px; width: 100%; border-radius: 24px; margin: 0; padding: 40px;"
-                                                                    align="left" bgcolor="#ffffff">
-                                                                    <h3 class="text-center"
-                                                                        style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;"
-                                                                        align="center">
-                                                                        Détails de l'instruction exécutée
+                                                                <td
+                                                                    style="padding: 30px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+
+                                                                    <!-- Titre -->
+                                                                    <h3
+                                                                        style="text-align: center; font-size: 28px; font-weight: 600; margin: 0 0 20px 0; padding: 0;">
+                                                                        Détails de l'instruction
                                                                     </h3>
 
-                                                                    <table class="p-2 w-full" border="0"
-                                                                        cellpadding="0" cellspacing="0"
-                                                                        style="width: 100%;" width="100%">
+                                                                    <!-- Tableau responsive -->
+                                                                    <table width="100%" cellpadding="0"
+                                                                        cellspacing="0"
+                                                                        style="min-width: 100%; margin-bottom: 20px;">
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td style="padding: 8px;"
@@ -350,74 +405,47 @@
                                                                                     {{ $recours->partie->avocats_defendeurs->nom_complet }}
                                                                                 </td>
                                                                             </tr>
-
+                                                                            <!-- Ligne Mesure -->
                                                                             <tr>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="left" width="50%">
-                                                                                    Instruction :
+                                                                                <td width="40%"
+                                                                                    style="padding: 10px 8px; vertical-align: top;">
+                                                                                    <strong>Objet :</strong>
                                                                                 </td>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="right" width="50%">
+                                                                                <td width="60%"
+                                                                                    style="padding: 10px 8px; vertical-align: top; text-align: right;">
                                                                                     {{ $recours->lastMouvement->instruction->nom }}
                                                                                 </td>
                                                                             </tr>
-
-                                                                            <tr>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="left" width="50%">
-                                                                                    Date d'exécution :
-                                                                                </td>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="right" width="50%">
-                                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                                                </td>
-                                                                            </tr>
                                                                         </tbody>
                                                                     </table>
 
-                                                                    <table class="s-6 w-full" border="0"
-                                                                        cellpadding="0" cellspacing="0"
-                                                                        style="width: 100%;">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td style="height: 24px;"
-                                                                                    height="24">&#160;</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <!-- Séparateur -->
+                                                                    <hr
+                                                                        style="border: 0; height: 1px; background-color: #e2e8f0; margin: 20px 0;">
 
-                                                                    <table class="hr" border="0"
-                                                                        cellpadding="0" cellspacing="0"
-                                                                        style="width: 100%;">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td
-                                                                                    style="border-top: 1px solid #e2e8f0; height: 1px;">
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <!-- Message conditionnel -->
+                                                                    <div style="margin-top: 20px; text-align: center;">
+                                                                        @if ($joursRestants == 0)
+                                                                            <div
+                                                                                style="background-color: #fef2f2; color: #dc2626; padding: 12px; border-radius: 8px; display: inline-block; max-width: 100%;">
+                                                                                <strong>URGENT : Délai expire
+                                                                                    aujourd'hui !</strong><br>
+                                                                                Pour cette demande.
+                                                                            </div>
+                                                                        @elseif($joursRestants <= 3)
+                                                                            <div
+                                                                                style="background-color: #fffbeb; color: #d97706; padding: 12px; border-radius: 8px; display: inline-block; max-width: 100%;">
+                                                                                <strong>Attention : Délai approchant
+                                                                                    !</strong><br>
+                                                                            </div>
+                                                                        @else
+                                                                            <div
+                                                                                style="padding: 12px; display: inline-block;">
+                                                                                Merci pour votre collaboration.
+                                                                            </div>
+                                                                        @endif
 
-                                                                    <table class="s-6 w-full" border="0"
-                                                                        cellpadding="0" cellspacing="0"
-                                                                        style="width: 100%;">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td style="height: 24px;"
-                                                                                    height="24">&#160;</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-
-                                                                    <p style="line-height: 24px; font-size: 16px; margin: 0;"
-                                                                        align="left">
-                                                                        Le dossier peut maintenant passer à l'étape
-                                                                        suivante de la procédure.
-                                                                    </p>
-                                                                    <p style="line-height: 24px; font-size: 16px; margin: 10px 0 0 0;"
-                                                                        align="left">
-                                                                        Merci pour votre collaboration.
-                                                                    </p>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -438,6 +466,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <!--[if (gte mso 9)|(IE)]>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+                    <![endif]-->
                                 </td>
                             </tr>
                         </tbody>

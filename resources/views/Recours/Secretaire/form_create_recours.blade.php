@@ -13,7 +13,7 @@
                                 <label class="col-sm-3 col-form-label">Numéro du dossier</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="dossier_numero" placeholder=""
-                                        required />
+                                         />
                                 </div>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date d'enregistrement</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="date_enregistrement" required />
+                                    <input type="date" class="form-control" name="date_enregistrement"  />
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Objet</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="objet_id" required>
+                                    <select class="form-control" name="objet_id" >
                                         @foreach ($objets as $item)
                                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
                                         @endforeach
@@ -80,7 +80,7 @@
                                 <label class="col-sm-3 col-form-label">Nom complet du réquerant</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="nom_requerant" placeholder=""
-                                        required />
+                                         />
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,16 @@
                                 <label class="col-sm-3 col-form-label">Nom de l'avocat/du conseil</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="nom_avocat_requerant" placeholder=""
-                                        required />
+                                         />
+                                </div>
+                            </div>
+                        </div>
+                             <div class="col-md-6">
+                            <div class="form-group row avocat">
+                                <label class="col-sm-3 col-form-label">Email de l'avocat/du conseil</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="email_avocat_requerant" placeholder=""
+                                         />
                                 </div>
                             </div>
                         </div>
@@ -135,7 +144,7 @@
                                 <label class="col-sm-3 col-form-label">Nom complet du défendeur</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="nom_defendeur" placeholder=""
-                                        required />
+                                         />
                                 </div>
                             </div>
                         </div>
@@ -165,11 +174,19 @@
                                 <label class="col-sm-3 col-form-label">Nom de l'avocat/du conseil</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="nom_avocat_defendeur"
-                                        placeholder="" required />
+                                        placeholder=""  />
                                 </div>
                             </div>
                         </div>
-
+        <div class="col-md-6">
+                            <div class="form-group row avocat">
+                                <label class="col-sm-3 col-form-label">Email de l'avocat/du conseil</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="email_avocat_defendeur" placeholder=""
+                                         />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

@@ -48,62 +48,82 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/recours/home/' . strtolower(Auth::user()->role)) }}">
-                        @if (Auth::user()->role == 'SUPER ADMIN')
+                        @role('SUPER ADMIN')
                             <a class="nav-link" href="{{ url('/recours/home/admin') }}">
-                        @endif
-                        <i class="mdi mdi-home menu-icon"></i>
-                        <span class="menu-title">Tableau de bord</span>
-                    </a>
+                            @endrole
+                            <i class="mdi mdi-home menu-icon"></i>
+                            <span class="menu-title">Tableau de bord</span>
+                        </a>
                 </li>
-
-                @if (Auth::user()->role == 'SECRETAIRE')
+                @can('recours-create')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('form.recours.create') }}">
                             <i class="mdi mdi-plus-circle menu-icon"></i>
                             <span class="menu-title">Créer un recours</span>
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'PCA')
+                @endcan
+
+
+                @can('affecter-recours')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pca.getlisterecours_a_affectes') }}">
+                        <a class="nav-link"
+                            href="
+       @if (auth()->user()->hasRole('PCA')) {{ route('pca.getlisterecours_a_affectes') }}
+       @elseif(auth()->user()->hasRole('PCJ'))
+           {{ route('pcj.getlisterecours_a_affectes') }}
+       @else
+           # @endif
+       ">
                             <i class="mdi mdi-shield menu-icon"></i>
                             <span class="menu-title">Affecter des recours</span>
-                            <span class="badge badge-danger text-white ml-2">
-                                {{--                                 {{count($recours)}}
- --}} </span>
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'PCJ')
+                @endcan
+
+
+                @can('mesure-execute')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pcj.getlisterecours_a_affectes') }}">
-                            Affecter des recours
+                        <a class="nav-link" href="{{ route('getlisterecours_en_instructions') }}">
+                            <i class="mdi mdi-paperclip menu-icon"></i>
+                            <span class="menu-title">Recours à executer</span>
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'CONSEILLER')
+                @endcan
+
+                @can('recours-instruction')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('get_liste_instruire') }}">
                             <i class="mdi mdi-paperclip menu-icon"></i>
-                            <span class="menu-title">Donner une instruction</span>
-
+                            <span class="menu-title">Recours à instruire</span>
                         </a>
                     </li>
+                @endcan
 
+
+                @can('recours-affecter')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('mesure_instructions.create') }}">
-                            <i class="mdi mdi-plus-circle menu-icon"></i>
-                            <span class="menu-title">Ajouter une mesure</span>
-
+                        <a class="nav-link" href="{{ route('getlisterecours_a_affectes') }}">
+                            <i class="mdi mdi-paperclip menu-icon"></i>
+                            <span class="menu-title">Recours à affectés</span>
                         </a>
                     </li>
+                @endcan
 
+
+                @can('instruction-list')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('mesure_instructions.index') }}">
-                            <i class="mdi mdi-view-list menu-icon"></i>
-                            <span class="menu-title">Liste des mesures</span>
+                            <i class="mdi mdi-plus-circle menu-icon"></i>
+                            <span class="menu-title">Gestions des mesures</span>
 
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'GREFFIER')
+                @endcan
+
+
+
+                @can('execute-mesure')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('getlisterecours_en_instructions') }}">
                             <i class="mdi mdi-play menu-icon"></i>
@@ -111,36 +131,61 @@
 
                         </a>
                     </li>
-                @elseif (Auth::user()->role == 'SUPER ADMIN')
+                @endcan
+
+                @can('user-list')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('liste_users') }}">
                             <i class="mdi mdi-account-switch menu-icon"></i>
                             <span class="menu-title">Gestion des Utilisateurs</span>
                         </a>
                     </li>
+                @endcan
 
-                    <li class="nav-item">
+                {{--                 @role('SUPER ADMIN')
+ --}}
+
+                <li class="nav-item">
+
+                    @hasanyrole('SECRETAIRE|GREFFIER|PCA|PCJ|CONSEILLER|SUPER ADMIN')
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
                             <i class="mdi mdi-settings menu-icon"></i>
                             <span class="menu-title">Paramètres</span>
                             <i class="menu-arrow"></i>
                         </a>
+                    @endhasanyrole
 
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            @can('structure-list')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('structures.index') }}">
                                         <i class="mdi mdi-home-modern menu-icon"></i>
                                         <span class="menu-title">Gestion structures</span>
                                     </a>
                                 </li>
+                            @endcan
+
+                            @can('permission-list')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('permissions.index') }}">
+                                        <i class="mdi mdi-plus-circle menu-icon"></i>
+                                        <span class="menu-title">Gestions des permissions</span>
+
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('section-list')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('sections.index') }}">
                                         <i class="mdi mdi-ungroup menu-icon"></i>
                                         <span class="menu-title">Gestion sections</span>
                                     </a>
                                 </li>
+                            @endcan
+                            @can('role-list')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('roles.index') }}">
                                         <i class="mdi mdi-tag-multiple menu-icon"></i>
@@ -149,6 +194,8 @@
                                         </span>
                                     </a>
                                 </li>
+                            @endcan
+                            @can('titre-list')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('titres.index') }}">
                                         <i class="mdi mdi-security menu-icon"></i>
@@ -157,11 +204,12 @@
                                         </span>
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                    </li>
+                            @endcan
+                        </ul>
+                    </div>
+                </li>
 
-                    {{--     <li class="nav-item">
+                {{--     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#uit-basic" aria-expanded="false"
                             aria-controls="ui-basic">
                             <span class="menu-title">Utilisateurs</span>
@@ -184,15 +232,29 @@
                             </ul>
                         </div>
                     </li> --}}
-                @endif
+                {{--                     @endif
+ --}}
+                {{--                 @endrole
+ --}}
 
+                @can('mesure-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('mesure_instructions.index') }}">
+                            <i class="mdi mdi-view-list menu-icon"></i>
+                            <span class="menu-title">Liste des mesures</span>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('get_liste') }}">
-                        <i class="mdi mdi-folder menu-icon"></i>
-                        <span class="menu-title">Liste des recours</span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                @endcan
+                @can('recours-list')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('get_liste') }}">
+                            <i class="mdi mdi-folder menu-icon"></i>
+                            <span class="menu-title">Liste des recours</span>
+                        </a>
+                    </li>
+                @endcan
+
 
 
                 <li class="nav-item sidebar-actions">
@@ -347,7 +409,9 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- DataTables JS -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
         <script>
             $(document).ready(function() {
                 $('#usersTable').DataTable({
@@ -358,6 +422,25 @@
                     searching: true,
                     ordering: true,
                 });
+                $('#recoursTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                    },
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                });
+
+                $('#permissionsTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                    },
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true
+                });
+
             });
         </script>
 

@@ -6,64 +6,66 @@
                 <h4 class="card-title">Formulaire d'enregistrement d'une section
 
                 </h4>
-                <form class="form-sample" method="POST" action="{{ route('sections.store') }}">
-                    @csrf
-                    <!--  -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Nom structure</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="structure_id">
-                                        <option value="">-- Sélectionner une structure --</option>
-                                        @foreach ($structures as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nom_structure }}</option>
-                                        @endforeach
-                                    </select>
+                @can('section-create')
+                    <form class="form-sample" method="POST" action="{{ route('sections.store') }}">
+                        @csrf
+                        <!--  -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Nom structure</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="structure_id">
+                                            <option value="">-- Sélectionner une structure --</option>
+                                            @foreach ($structures as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nom_structure }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  -->
-                    <div class="row section-item">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Nom</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nom[0]" />
+                        <!--  -->
+                        <div class="row section-item">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Nom</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="nom[0]" />
+                                    </div>
                                 </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="code[0]" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-danger btn-remove-section"
+                                    style="display: none;">Supprimer</button>
                             </div>
                         </div>
 
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Code</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="code[0]" />
-                                </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" id="btn-add-section">+ Ajouter une
+                                    section</button>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-danger btn-remove-section"
-                                style="display: none;">Supprimer</button>
-                        </div>
-                    </div>
 
-                    <hr>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-primary" id="btn-add-section">+ Ajouter une
-                                section</button>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success">Enregistrer</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-success">Enregistrer</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                @endcan
             </div>
         </div>
     </div>

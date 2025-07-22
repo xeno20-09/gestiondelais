@@ -46,7 +46,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ route('pca.get_form_affecte', ['id' => $item->id]) }}">Affecter</a>
+                                                    href="{{ route('get_form_affecte', ['id' => $item->id]) }}">Affecter</a>
 
                                                 <a class="dropdown-item"
                                                     href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>

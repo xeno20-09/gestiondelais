@@ -247,32 +247,25 @@
                                                         <p class=""
                                                             style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;"
                                                             align="left">
-                                                            Nous vous informons que le contact a bien été établi pour la
-                                                            mesure d'instruction
+                                                            Nous vous informons que la mesure d'instruction
                                                             <strong>{{ $recours->lastMouvement->instruction->nom }}</strong>
                                                             concernant le dossier
-                                                            <strong>{{ $recours->numero_dossier }}</strong>,
-                                                            mais que celle-ci n'a pas été exécutée dans les délais
-                                                            impartis.
-                                                        </p>
-                                                        <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 10px 0 0 0;"
-                                                            align="left">
-                                                            L'instruction avait été initiée le
+                                                            <strong>{{ $recours->numero_dossier }}</strong>
+                                                            a été exécutée avec succès le
                                                             <strong>
-                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
-                                                            </strong>
-                                                            avec une échéance prévue pour le
-                                                            <strong>
-                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
+                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_execution)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}
                                                             </strong>.
                                                         </p>
                                                         <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 10px 0 0 0;"
                                                             align="left">
-                                                            Le requérant
+                                                            Cette instruction avait été initiée le
+                                                            <strong>
+                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}
+                                                            </strong>
+                                                            et notifiée au requérant
                                                             <strong>{{ $recours->partie->requerant->nom_complet }}</strong>
-                                                            avait été notifié le
-                                                            <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}</strong>,
-                                                            mais n'a pas donné suite dans les délais requis.
+                                                            le
+                                                            <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>.
                                                         </p>
                                                         <table class="s-4 w-full" role="presentation" border="0"
                                                             cellpadding="0" cellspacing="0" style="width: 100%;"
@@ -312,7 +305,7 @@
                                                                     <h3 class="text-center"
                                                                         style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;"
                                                                         align="center">
-                                                                        Détails du dossier
+                                                                        Détails de l'instruction exécutée
                                                                     </h3>
 
                                                                     <table class="p-2 w-full" border="0"
@@ -372,37 +365,13 @@
                                                                             <tr>
                                                                                 <td style="padding: 8px;"
                                                                                     align="left" width="50%">
-                                                                                    Date d'initiation :
+                                                                                    Date d'exécution :
                                                                                 </td>
                                                                                 <td style="padding: 8px;"
                                                                                     align="right" width="50%">
-                                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
+                                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}
                                                                                 </td>
                                                                             </tr>
-
-                                                                            <tr>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="left" width="50%">
-                                                                                    Échéance initiale :
-                                                                                </td>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="right" width="50%">
-                                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
-                                                                                </td>
-                                                                            </tr>
-
-                                                                            <tr>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="left" width="50%">
-                                                                                    Date de notification :
-                                                                                </td>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="right" width="50%">
-                                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
-                                                                                </td>
-                                                                            </tr>
-
-
                                                                         </tbody>
                                                                     </table>
 
@@ -440,6 +409,11 @@
                                                                         </tbody>
                                                                     </table>
 
+                                                                    <p style="line-height: 24px; font-size: 16px; margin: 0;"
+                                                                        align="left">
+                                                                        Le dossier peut maintenant passer à l'étape
+                                                                        suivante de la procédure.
+                                                                    </p>
                                                                     <p style="line-height: 24px; font-size: 16px; margin: 10px 0 0 0;"
                                                                         align="left">
                                                                         Merci pour votre collaboration.

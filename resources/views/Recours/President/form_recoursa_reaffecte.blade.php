@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Formulaire d'enregistrement du recours</h4>
-                <form class="form-sample" method="POST" action="{{ route('pca.post_form_affecte') }}">
+                <form class="form-sample" method="POST" action="{{ route('post_form_affecte') }}">
                     @csrf
                     <p class="card-description">Information du dossier</p>
                     <div class="row">

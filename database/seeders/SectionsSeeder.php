@@ -17,17 +17,17 @@ class SectionsSeeder extends Seeder
         $sections = [
             [
                 'nom_section' => 'SECTION 1',
-                'code_section' => '1',
+                'code_section' => 'CA1',
                 'structure_id' => 1,
             ],
             [
                 'nom_section' => 'SECTION 2',
-                'code_section' => '2',
+                'code_section' => 'CA2',
                 'structure_id' => 1,
             ],
             [
                 'nom_section' => 'SECTION 3',
-                'code_section' => '3',
+                'code_section' => 'CA3',
                 'structure_id' => 1,
             ],
             [

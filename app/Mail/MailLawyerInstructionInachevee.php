@@ -9,10 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailFinInstruction extends Mailable
+class MailLawyerInstructionInachevee extends Mailable
 {
     use Queueable, SerializesModels;
-
 
     public  $recours;
     public  $user;
@@ -23,13 +22,14 @@ class MailFinInstruction extends Mailable
         $this->user = $user;
     }
 
+
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Fin Instruction' . ' ' . 'du dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
+            subject: 'Non execution de l\'instruction' . ' ' . 'du dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
         );
     }
 
@@ -39,7 +39,7 @@ class MailFinInstruction extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.mail-fin-instruction',
+            markdown: 'mail.mail-lawyer-instruction-inachevee',
         );
     }
 

@@ -65,11 +65,9 @@ class SectionController extends Controller
      */
     public function update(Request $request, Section $section)
     {
-
         $section->nom_section = $request->nom;
         $section->code_section = $request->code;
-        $structure = Structure::where('nom_structure', $request->nom_structure)->first()->id;
-        $section->structure_id = $structure;
+        $section->structure_id = $request->structure_id;
         $section->update();
         return redirect()->route('sections.index');
     }

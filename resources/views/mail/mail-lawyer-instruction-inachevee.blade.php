@@ -2,7 +2,6 @@
 <html>
 
 <head>
-    <!-- Compiled with Bootstrap Email version: 1.3.1 -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="x-apple-disable-message-reformatting">
@@ -167,8 +166,6 @@
         }
     </style>
 </head>
-{{-- @dd($info_personne->sexe=='Femme')
- --}}
 
 <body class="bg-red-100"
     style="outline: 0; width: 100%; min-width: 100%; height: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: Helvetica, Arial, sans-serif; line-height: 24px; font-weight: normal; font-size: 16px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #000000; margin: 0; padding: 0; border-width: 0;"
@@ -223,17 +220,13 @@
                                                     <div class="space-y-4">
                                                         <h1 class="text-4xl fw-800"
                                                             style="padding-top: 0; padding-bottom: 0; font-weight: 800 !important; vertical-align: baseline; font-size: 36px; line-height: 43.2px; margin: 0;"
-                                                            align="left">Bonjour,@if ($user->sexe == 'Homme')
-                                                                @php
-                                                                    $genre = 'Mr';
-                                                                @endphp
-                                                            @else
-                                                                @php
-                                                                    $genre = 'Mme';
-                                                                @endphp
-                                                            @endif {{ $genre }}
-                                                            {{ $user->nom }} {{ $user->prenoms }} {{ $user->role }}
-                                                            de la {{ $recours->structure->nom_structure }}</h1>
+                                                            align="left">Bonjour,
+                                                            @if ($user->type == 'avocat_conseil')
+                                                                Maître {{ $user->nom_complet }},
+                                                            @elseif($user->type == 'avocat_individuel')
+                                                                Conseil {{ $user->nom_complet }},
+                                                            @endif
+                                                        </h1>
                                                         <table class="s-4 w-full" role="presentation" border="0"
                                                             cellpadding="0" cellspacing="0" style="width: 100%;"
                                                             width="100%">
@@ -249,43 +242,26 @@
                                                         <p class=""
                                                             style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;"
                                                             align="left">
-                                                            @if ($recours->etat_dossier == 'En instruction')
-                                                                Nous vous informons que la mesure
-                                                                :{{ $recours->lastMouvement->instruction->nom }}
-                                                                a été initiée le
-                                                                <strong>
-                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                                </strong>.Le
-                                                                requerant {{ $recours->partie->requerant->nom_complet }}
-                                                                à
-                                                                été notifié le
-                                                                <strong>
-                                                                    {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                                    elle prendra donc fin le
-                                                                    <strong>
-                                                                        {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                                        </strongstrong>
-                                                                    @elseif($recours->etat_dossier == 'Inachevée')
-                                                                        Nous vous informons que le greffier
-                                                                        :{{ $recours->partie->greffier->nom }}
-                                                                        {{ $recours->partie->greffier->prenoms }}
-                                                                        a essayé de notifier à plusieur reprise le
-                                                                        requerant
-                                                                        {{ $recours->partie->requerant->nom_complet }}
-                                                                        suite à la mesure d'instruction
-                                                                        {{ $recours->lastMouvement->instruction->nom }}
-                                                                        que
-                                                                        le
-                                                                        conseiller
-                                                                        {{ $recours->partie->conseiller->nom }}
-                                                                        {{ $recours->partie->conseiller->prenoms }}
-                                                                        a
-                                                                        initiée
-                                                                        le
-                                                                        <strong>
-                                                                            {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y à HH:mm') }}
-                                                                            , sans suite de sa part.
-                                                            @endif
+                                                            Nous vous informons par la présente que la mesure
+                                                            d'instruction
+                                                            <strong>{{ $recours->lastMouvement->instruction->nom }}</strong>
+                                                            n'a pu être menée à son terme dans les délais impartis.
+                                                        </p>
+                                                        <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 10px 0 0 0;"
+                                                            align="left">
+                                                            Cette instruction avait été initiée le
+                                                            <strong>
+                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}
+                                                            </strong>
+                                                            avec une échéance prévue pour le
+                                                            <strong>
+                                                                {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}
+                                                            </strong>.
+                                                        </p>
+                                                        <p style="line-height: 24px; font-size: 16px; width: 100%; margin: 10px 0 0 0;"
+                                                            align="left">
+                                                            Votre client avait été notifié le
+                                                            <strong>{{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y') }}</strong>,
                                                         </p>
                                                         <table class="s-4 w-full" role="presentation" border="0"
                                                             cellpadding="0" cellspacing="0" style="width: 100%;"
@@ -325,7 +301,7 @@
                                                                     <h3 class="text-center"
                                                                         style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;"
                                                                         align="center">
-                                                                        Détails de l’instruction
+                                                                        Détails du dossier
                                                                     </h3>
 
                                                                     <table class="p-2 w-full" border="0"
@@ -339,48 +315,79 @@
                                                                                 </td>
                                                                                 <td style="padding: 8px;"
                                                                                     align="right" width="50%">
-                                                                                    {{ $recours->numero_dossier }}
+                                                                                    <strong>{{ $recours->numero_dossier }}</strong>
                                                                                 </td>
                                                                             </tr>
 
                                                                             <tr>
                                                                                 <td style="padding: 8px;"
                                                                                     align="left" width="50%">
-                                                                                    Instance :
+                                                                                    Objet du dossier :
                                                                                 </td>
                                                                                 <td style="padding: 8px;"
                                                                                     align="right" width="50%">
-                                                                                    Requérant :
-                                                                                    {{ $recours->partie->requerant->nom_complet }}<br>
-                                                                                    Avocat Requérant :
-                                                                                    {{ $recours->partie->avocats_requerants->nom_complet }}
+                                                                                    {{ $recours->objet->nom }}
                                                                                 </td>
                                                                             </tr>
 
                                                                             <tr>
                                                                                 <td style="padding: 8px;"
                                                                                     align="left" width="50%">
-                                                                                    C /
+                                                                                    Mesure d'instruction :
                                                                                 </td>
                                                                                 <td style="padding: 8px;"
                                                                                     align="right" width="50%">
-                                                                                    Défendeur :
-                                                                                    {{ $recours->partie->defendeur->nom_complet }}<br>
-                                                                                    Avocat Défendeur :
-                                                                                    {{ $recours->partie->avocats_defendeurs->nom_complet }}
+                                                                                    <strong>{{ $recours->lastMouvement->instruction->nom }}</strong>
                                                                                 </td>
                                                                             </tr>
 
-                                                                            <tr>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="left" width="50%">
-                                                                                    Objet :
-                                                                                </td>
-                                                                                <td style="padding: 8px;"
-                                                                                    align="right" width="50%">
-                                                                                    {{ $recours->lastMouvement->instruction->nom }}
-                                                                                </td>
-                                                                            </tr>
+                                                                            {{-- Conditional display for "Dossier clos" --}}
+                                                                            @if ($recours->lastMouvement->instruction->nom == 'Paiement de consignation')
+                                                                                <tr>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="left" width="50%">
+                                                                                        Statut du dossier :
+                                                                                    </td>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="right" width="50%">
+                                                                                        <strong>Clos</strong>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @else
+                                                                                <tr>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="left" width="50%">
+                                                                                        Date d'initiation :
+                                                                                    </td>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="right" width="50%">
+                                                                                        {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <tr>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="left" width="50%">
+                                                                                        Échéance initiale :
+                                                                                    </td>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="right" width="50%">
+                                                                                        {{ \Carbon\Carbon::parse($recours->lastMouvement->date_fin_instruction)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <tr>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="left" width="50%">
+                                                                                        Date de notification :
+                                                                                    </td>
+                                                                                    <td style="padding: 8px;"
+                                                                                        align="right" width="50%">
+                                                                                        {{ \Carbon\Carbon::parse($recours->lastMouvement->date_debut_notification)->locale('fr_FR')->isoFormat('dddd D MMM Y [à] HH:mm') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endif
+
                                                                         </tbody>
                                                                     </table>
 
@@ -418,14 +425,20 @@
                                                                         </tbody>
                                                                     </table>
 
-                                                                    <p style="line-height: 24px; font-size: 16px; margin: 0;"
+                                                                    {{--       <p style="line-height: 24px; font-size: 16px; margin: 0;"
                                                                         align="left">
-                                                                        Merci pour votre collaboration.
+                                                                        Nous vous prions de bien vouloir prendre contact
+                                                                        avec votre client afin de régulariser cette
+                                                                        situation dans les meilleurs délais.
+                                                                    </p> --}}
+                                                                    <p style="line-height: 24px; font-size: 16px; margin: 10px 0 0 0;"
+                                                                        align="left">
+                                                                        Nous restons à votre disposition pour toute
+                                                                        information complémentaire.
                                                                     </p>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-
                                                     </table>
                                                     <table class="s-6 w-full" role="presentation" border="0"
                                                         cellpadding="0" cellspacing="0" style="width: 100%;"
@@ -443,12 +456,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <!--[if (gte mso 9)|(IE)]>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-                    <![endif]-->
                                 </td>
                             </tr>
                         </tbody>

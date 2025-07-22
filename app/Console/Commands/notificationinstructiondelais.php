@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\MailLawyerRappelDelais;
 use Carbon\Carbon;
 use App\Models\Mouvement;
 use App\Mail\MailRappelDelais;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\MailUserRappelDelais;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class notificationinstructiondelais extends Command
 {
@@ -74,7 +76,7 @@ class notificationinstructiondelais extends Command
         );*/
 
         Mail::to(/* $partie->conseiller->email */'allegressecakpo93@gmail.com')->send(
-            new MailRappelDelais(
+            new MailUserRappelDelais(
                 $mouvement->recours,
                 $partie->conseiller,
                 $joursRestants
@@ -82,12 +84,72 @@ class notificationinstructiondelais extends Command
         );
 
         Mail::to(/* $partie->auditeur->email */'adelecakpo150@gmail.com')->send(
-            new MailRappelDelais(
+            new MailUserRappelDelais(
                 $mouvement->recours,
                 $partie->auditeur,
                 $joursRestants
             )
         );
+
+        Mail::to(/* $partie->auditeur->email */'adelecakpo150@gmail.com')->send(
+            new MailUserRappelDelais(
+                $mouvement->recours,
+                $partie->greffier,
+                $joursRestants
+            )
+        );
+
+        if ($mouvement->communique_au == 'Deux parties') {
+
+            try {
+                Mail::to('allegressecakpo93@gmail.com')->send(
+                    new MailLawyerRappelDelais(
+                        $mouvement->recours,
+                        $partie->avocats_requerants,
+                        $joursRestants
+                    )
+                );
+            } catch (\Exception $e) {
+                Log::error("Erreur envoi mail a l'avocat requerant : " . $e->getMessage());
+            }
+
+            try {
+                Mail::to('adelecakpo150@gmail.com')->send(
+                    new MailLawyerRappelDelais(
+                        $mouvement->recours,
+                        $partie->avocats_defendeurs,
+                        $joursRestants
+                    )
+                );
+            } catch (\Exception $e) {
+                Log::error("Erreur envoi mail à l'avocat defendeur : " . $e->getMessage());
+            }
+        } elseif ($mouvement->communique_au == 'Réquerant') {
+
+            try {
+                Mail::to('allegressecakpo93@gmail.com')->send(
+                    new MailLawyerRappelDelais(
+                        $mouvement->recours,
+                        $partie->avocats_requerants,
+                        $joursRestants
+                    )
+                );
+            } catch (\Exception $e) {
+                Log::error("Erreur envoi mail a l'avocat requerant : " . $e->getMessage());
+            }
+        } elseif ($mouvement->communique_au == 'Défendeur') {
+            try {
+                Mail::to('adelecakpo150@gmail.com')->send(
+                    new MailLawyerRappelDelais(
+                        $mouvement->recours,
+                        $partie->avocats_defendeurs,
+                        $joursRestants
+                    )
+                );
+            } catch (\Exception $e) {
+                Log::error("Erreur envoi mail à l'avocat defendeur : " . $e->getMessage());
+            }
+        }
 
         // Tu pourrais ajouter d’autres envois ici si besoin
     }

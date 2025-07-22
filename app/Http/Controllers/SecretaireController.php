@@ -40,11 +40,13 @@ class SecretaireController extends Controller
         $avocat_defendeur = new AvocatDefendeur;
         $avocat_defendeur->nom_complet = $request->nom_avocat_defendeur;
         $avocat_defendeur->type = $request->type_avocat_defendeur;
+        $avocat_defendeur->email = $request->email_avocat_defendeur;
         $avocat_defendeur->save();
 
         $avocat_requerant = new AvocatRequerant;
         $avocat_requerant->nom_complet = $request->nom_avocat_requerant;
         $avocat_requerant->type = $request->type_avocat_requerant;
+        $avocat_requerant->email = $request->email_avocat_requerant;
         $avocat_requerant->save();
 
         $defendeur = new Defendeur;

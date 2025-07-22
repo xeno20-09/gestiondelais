@@ -9,27 +9,29 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class FirstMailInstruction extends Mailable
+class MailLawyerRappelDelais extends Mailable
 {
     use Queueable, SerializesModels;
 
     public  $recours;
     public  $user;
+    public $joursRestants;
 
-
-
-    public function __construct($recours, $user)
+    public function __construct($recours, $user, $joursRestants)
     {
+
         $this->recours = $recours;
         $this->user = $user;
+        $this->joursRestants = $joursRestants;
     }
+
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouvelle Notification' . ' ' . 'du dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
+            subject: 'Rappel Delais' . ' ' . 'pour le dossier' . ' ' . 'N°' . $this->recours->numero_dossier,
         );
     }
 
@@ -39,7 +41,7 @@ class FirstMailInstruction extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.first-mail-instruction',
+            markdown: 'mail.mail-lawyer-rappel-delais',
         );
     }
 

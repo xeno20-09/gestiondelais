@@ -34,11 +34,11 @@ class LoginController extends Controller
 /home/conseiller
 /home/greffier */
         return match ($user->role) {
-            'PCA' => 'recours/get/liste/recours/a_affectes/ca',
-            'PCJ' => 'recours/get/liste/recours/a_affectes/cj',
+            'PCA' => 'recours/home/president',
+            'PCJ' => 'recours/home/president',
             'AUDITEUR'               => 'recours/home/auditeur',
-            'CONSEILLER'             => 'recours/get/liste/recours/a_instruires',
-            'GREFFIER'               => 'recours/get/liste/recours/en_instructions',
+            'CONSEILLER'             => 'recours/home/conseiller',
+            'GREFFIER'               => 'recours/home/greffier',
             'SECRETAIRE'             => 'recours/home/secretaire',
             'SUPER ADMIN'            => 'recours/home/admin',
             default                  => 'recours/home/default',

@@ -6,7 +6,8 @@
                 <h4 class="card-title">Formulaire d'enregistrement d'un titre
 
                 </h4>
-                <form class="form-sample" method="POST" action="{{ route('titres.store') }}">
+          @can('titre-create')
+                    <form class="form-sample" method="POST" action="{{ route('titres.store') }}">
                     @csrf
                     <!--  -->
                     <div class="row">
@@ -30,6 +31,7 @@
                         </div>
                     </div>
                 </form>
+          @endcan
             </div>
         </div>
     </div>

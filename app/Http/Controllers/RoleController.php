@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\role;
+//use App\Models\role;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreroleRequest;
 use App\Http\Requests\UpdateroleRequest;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -15,7 +18,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = UserRole::all();
+        $roles = Role::all();
         return view('Recours.Admin.Parametres.Roles.index', ['roles' => $roles]);
     }
 
@@ -24,7 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('Recours.Admin.Parametres.Roles.create');
+        $permissions = Permission::get();
+
+        return view('Recours.Admin.Parametres.Roles.create', ['permissions' => $permissions]);
     }
 
     /**
@@ -32,9 +37,20 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = new UserRole();
+
+        $permissionsID = array_map(
+            function ($value) {
+                return (int)$value;
+            },
+            $request->input('permissions')
+        );
+
+        $role = Role::create(['name' => $request->input('nom')]);
+        $role->syncPermissions($permissionsID);
+
+        /* $role = new UserRole();
         $role->nom = $request->nom;
-        $role->save();
+        $role->save(); */
         return redirect()->route('roles.index');
     }
 
@@ -49,27 +65,43 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserRole $role)
+    public function edit($id)
     {
-        return view('Recours.Admin.Parametres.Roles.update', ['role' => $role]);
+        $role = Role::find($id);
+        $permissions = Permission::get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
+            ->all();
+        return view('Recours.Admin.Parametres.Roles.update', ['role' => $role, 'rolePermissions' => $rolePermissions, 'permissions' => $permissions]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserRole $role)
+    public function update(Request $request, $id)
     {
-        $role->nom = $request->nom;
+        $role = Role::find($id);
+        $role->name = $request->input('nom');
         $role->update();
+
+        $permissionsID = array_map(
+            function ($value) {
+                return (int)$value;
+            },
+            $request->input('permissions')
+        );
+
+        $role->syncPermissions($permissionsID);
+
         return redirect()->route('roles.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserRole $role)
+    public function destroy($id)
     {
-        $role->delete();
+        DB::table("roles")->where('id',$id)->delete();        
         return redirect()->route('roles.index');
     }
 }

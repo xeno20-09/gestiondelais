@@ -37,23 +37,29 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        <div class="badge badge-inverse-danger">
-                                            <a href="{{ route('get_form_instruire', ['id' => $item->id]) }}">Ajouter une
-                                                mesure</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="badge badge-inverse-danger">
-                                            <a href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="badge badge-inverse-danger">
-                                            <a href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
-                                        </div>
-                                    </td>
 
+                                    @can('recours-instruction')
+                                        <td>
+                                            <div class="badge badge-inverse-danger">
+                                                <a href="{{ route('get_form_instruire', ['id' => $item->id]) }}">Ajouter une
+                                                    mesure</a>
+                                            </div>
+                                        </td>
+                                    @endcan
+                                    @can('recours-historique')
+                                        <td>
+                                            <div class="badge badge-inverse-danger">
+                                                <a href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
+                                            </div>
+                                        </td>
+                                    @endcan
+                                    @can('recours-detail')
+                                        <td>
+                                            <div class="badge badge-inverse-danger">
+                                                <a href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
+                                            </div>
+                                        </td>
+                                    @endcan
                                 </tr>
                             @empty
                                 <tr>

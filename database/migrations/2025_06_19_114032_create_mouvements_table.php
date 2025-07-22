@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('date_fin_instruction')->nullable();
             $table->date('date_execution')->nullable();
             $table->string('observation')->nullable();
+
             $table->enum('etat_instruction', ['Executée', 'Contacté', 'Inachevée', 'Initiée', 'Non Contacté'])->nullable();
             $table->enum('communique_au', ['Deux parties', 'Réquerant', 'Défendeur'])->nullable();
 

@@ -42,15 +42,19 @@
                                       <td>{{ $item->section->code_section ?? null }}</td>
 
                                       <td>
-                                          <a href="{{ route('modify_users_info', ['id' => $item->id]) }}">
-                                              <div class="badge badge-inverse-success"> Modifier </div>
-                                          </a>
-                                          <form action="{{ route('user_destroy', ['id' => $item->id]) }}" method="post">
-                                              @csrf
-                                              @method('DELETE')
-                                              <button type="submit" class="badge badge-inverse-danger"
-                                                  style="">Supprimer</button>
-                                          </form>
+                                          @can('user-edit')
+                                              <a href="{{ route('modify_users_info', ['id' => $item->id]) }}">
+                                                  <div class="badge badge-inverse-success"> Modifier </div>
+                                              </a>
+                                          @endcan
+                                          @can('user-delete')
+                                              <form action="{{ route('user_destroy', ['id' => $item->id]) }}" method="post">
+                                                  @csrf
+                                                  @method('DELETE')
+                                                  <button type="submit" class="badge badge-inverse-danger"
+                                                      style="">Supprimer</button>
+                                              </form>
+                                          @endcan
                                       </td>
 
                                   </tr>
@@ -63,7 +67,7 @@
 
               </div>
 
-      {{--         @if ($users->lastPage() > 1)
+              {{--         @if ($users->lastPage() > 1)
                   <div class="template-demo" style="text-align: center;">
                       <div class="btn-group" role="group" aria-label="Basic example">
                           @for ($i = 1; $i <= $users->lastPage(); $i++)
@@ -80,5 +84,4 @@
 
           </div>
       </div>
-
   @endsection

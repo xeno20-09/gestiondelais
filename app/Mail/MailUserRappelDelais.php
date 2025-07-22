@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailRappelDelais extends Mailable
+class MailUserRappelDelais extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -41,7 +41,7 @@ class MailRappelDelais extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.mail-rappel-delais',
+            markdown: 'mail.mail-user-rappel-delais',
         );
     }
 

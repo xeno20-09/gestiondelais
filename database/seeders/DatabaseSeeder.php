@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             UserTitreSeeder::class,
             UsersSeeder::class,
             ObjetsSeeder::class,
+            PermissionsSeeder::class,
 
         ]);
     }

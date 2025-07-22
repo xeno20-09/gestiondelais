@@ -17,6 +17,7 @@ class AvocatDefendeur extends Model
      */
     protected $fillable = [
         'nom_complet',
+        'email',
         'type',
 
     ];
