@@ -41,10 +41,13 @@
                                                 href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
                                             <a class="badge badge-inverse-warning"
                                                 href="{{ route('get_form_affecte', ['id' => $item->id]) }}">Affecter</a>
-                                            @if ($item->partie->conseiller != null)
-                                                <a class="badge badge-inverse-warning"
-                                                    href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}">Réaffectés</a>
-                                            @endif
+                                   @if ($item->partie->conseiller)
+    <a href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}" 
+       class="badge badge-inverse-success">
+        Réaffectés
+    </a>
+@endif
+
                                         </div>
                                     </td>
 

@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class AffecteRecours extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public  $recours;
+    public  $user;
+
+    public function __construct($recours,$user)
+    {
+        $this->user = $user;
+        $this->recours = $recours;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+subject: 'Affection de recours N° ' . $this->recours->numero_dossier . ' du ' . \Carbon\Carbon::parse($this->recours->date_enregistrement)->locale('fr_FR')->isoFormat('dddd D MMMM Y'),       );
+        
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            markdown: 'mail.affecte-recours',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}

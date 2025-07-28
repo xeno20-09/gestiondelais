@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AffecteRecours;
+use App\Mail\ReaffecteRecours;
 
 class PresidentController extends Controller
 {
@@ -21,7 +24,7 @@ class PresidentController extends Controller
     public function getlisterecours_a_affectes()
     {
         $chambre = Auth::user()->structure_id;
-        $recours = Recours::where('etat_dossier', 'Nouveau')->where('structure_id', $chambre)->get();
+        $recours = Recours::where('etat_dossier', 'Nouveau')->orwhere('etat_dossier', 'Affecté')->where('structure_id', $chambre)->get();
         $countrecours = count($recours);
         return view('Recours.President.listerecoursa_affectes', compact('recours', 'countrecours'));
     }
@@ -69,6 +72,23 @@ class PresidentController extends Controller
         $partie->conseiller_id = $request->conseiller;
         $partie->auditeur_id = $request->auditeur;
         $partie->update();
+
+        
+                    Mail::to('allegressecakpo93@gmail.com')->send(
+                        new AffecteRecours($recours, $partie->conseiller)
+                    );
+                
+
+                
+                    Mail::to('adelecakpo150@gmail.com')->send(
+                        new AffecteRecours($recours, $partie->auditeur)
+                    );
+                
+                
+                    Mail::to('allegressecakpo93@gmail.com')->send(
+                        new AffecteRecours($recours, $partie->greffier)
+                    );
+                
         return redirect()->route('get_liste');
     }
 
@@ -117,6 +137,21 @@ class PresidentController extends Controller
         $partie->conseiller_id = $request->conseiller;
         $partie->auditeur_id = $request->auditeur;
         $partie->update();
+               
+                    Mail::to('allegressecakpo93@gmail.com')->send(
+                        new ReaffecteRecours($recours, $partie->conseiller)
+                    );
+                
+
+                
+                    Mail::to('adelecakpo150@gmail.com')->send(
+                        new ReaffecteRecours($recours, $partie->auditeur)
+                    );
+                
+                
+                    Mail::to('allegressecakpo93@gmail.com')->send(
+                        new ReaffecteRecours($recours, $partie->greffier)
+                    );
         return redirect()->route('get_liste');
     }
     /*     }
