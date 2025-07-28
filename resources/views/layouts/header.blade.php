@@ -25,11 +25,11 @@
     <div class="container-scroller">
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
-                <a class="sidebar-brand brand-logo" href="index.html"><img
+                <a class="sidebar-brand brand-logo" href="#"><img
                         src="{{ asset('assets/images/illustration.png') }}"
                         style="    max-width: 60%;
     height: 56px;" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img
+                <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="#"><img
                         src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" /></a>
             </div>
             <ul class="nav">
@@ -255,6 +255,19 @@
                     </li>
                 @endcan
 
+                                @if (Auth::user())
+<li class="nav-item sidebar-actions">
+                    <div class="nav-link">
+                        <div class="mt-4">
+                            <ul class="mt-4 pl-0">
+                        <a class="btn btn-warning" href="{{ route('change_pwd_view') }}" role="button" style="color:white;">Modifier le mot de passe</a>
+      </ul>
+                        </div>                        </div>
+
+                    </li>
+
+                                @endif
+                 
 
 
                 <li class="nav-item sidebar-actions">

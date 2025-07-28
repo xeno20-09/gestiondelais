@@ -2,7 +2,7 @@
 @section('content')
     <div class="container mt-5">
 @can('structure-create')
-            <a href="{{ route('structures.create') }}" class="btn btn-info btn-sm">Ajouter une structure</a>
+            <a href="{{ route('structures.create') }}" class="btn btn-info btn-sm mb-5">Ajouter une structure</a>
 @endcan
         <h2 class="mb-4">Liste des structures</h2>
 
@@ -11,7 +11,11 @@
                 <tr>
                     <th>Nom</th>
                     <th>Code</th>
-                    <th>Actions</th>
+                    
+                 @if(Auth::user()->can('structure-edit') && Auth::user()->can('structure-delete'))
+    <th>Actions</th>
+@endif
+
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +24,9 @@
 
                         <td>{{ $structure->nom_structure }}</td>
                         <td>{{ $structure->code_structure }}</td>
-                        <td>
+                        
+                                      @if(Auth::user()->can('structure-edit') && Auth::user()->can('structure-delete'))
+                        <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                             @can('structure-edit')
                                 <a href="{{ route('structures.edit', $structure->id) }}" class="btn btn-info btn-sm">Modifier</a>
                             @endcan
@@ -31,7 +37,8 @@
                                     <button type="submit" class="btn btn-danger btn-sm" style="">Supprimer</button>
                                 </form>
                             @endcan
-                        </td>
+                        </td>@endif
+
                     </tr>
                 @endforeach
 

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt-5">
         @can('permission-create')
-            <a href="{{ route('permissions.create') }}" class="btn btn-info btn-sm mb-3">Ajouter une permission</a>
+            <a href="{{ route('permissions.create') }}" class="btn btn-info btn-sm mb-5">Ajouter une permission</a>
         @endcan
         <h2 class="mb-4">Liste des permissions</h2>
 
@@ -19,7 +19,7 @@
                     @foreach ($permissions as $permission)
                         <tr>
                             <td>{{ $permission->name }}</td>
-                            <td>
+                            <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                                 @can('permission-edit')
                                     <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-info btn-sm">Modifier</a>
                                 @endcan

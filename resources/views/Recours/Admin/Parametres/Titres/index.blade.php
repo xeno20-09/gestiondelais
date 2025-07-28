@@ -2,7 +2,7 @@
 @section('content')
     <div class="container mt-5">
 @can('titre-create')
-            <a href="{{ route('titres.create') }}" class="btn btn-info btn-sm">Ajouter une titre</a>
+            <a href="{{ route('titres.create') }}" class="btn btn-info btn-sm mb-5">Ajouter une titre</a>
 
 @endcan
         <h2 class="mb-4">Liste des titres</h2>
@@ -19,7 +19,7 @@
                     <tr>
                         <td>{{ $titre->nom }}</td>
 
-                        <td>
+                        <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                             @can('titre-edit')
                                 <a href="{{ route('titres.edit', $titre->id) }}" class="btn btn-info btn-sm">Modifier</a>
                             @endcan

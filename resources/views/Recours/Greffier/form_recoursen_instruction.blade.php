@@ -87,21 +87,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <div class="col-sm-9 input-group">
-                                    <label class="col-sm-3 col-form-label">Instruction</label>
+      <div class="col-md-6">
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Instruction</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                    value="{{ $recours->lastMouvement->instruction->nom ?? '' }}" 
+                    name="instruction" readonly>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        {{ $recours->lastMouvement->instruction->delais ?? 0 }} jours
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                    <input type="text" class="form-control"
-                                        value="{{ $recours->lastMouvement->instruction->nom }}" name="instruction"
-                                        placeholder="" readonly />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">{{ $recours->lastMouvement->instruction->delais }}
-                                            jours</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <p class="card-description">Information à completer</p>
@@ -109,7 +112,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Etat actuel
+                                <label class="col-sm-3 col-form-label text-warning">Etat actuel
                                     :{{ $recours->lastMouvement->etat_instruction }}</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="etat_instruction" required>
@@ -140,11 +143,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Observation</label>
                                 <div class="col-sm-9">
-                                    <textarea class="form-control" id="exampleTextarea1" name="observation" rows="8">
-                                        @isset($recours->lastMouvement->observation)
-{{ $recours->lastMouvement->observation }}
-@endisset
-                                   </textarea>
+                              <textarea class="form-control" id="exampleTextarea1" name="observation" rows="8">@isset($recours->lastMouvement->observation){{ $recours->lastMouvement->observation }}@endisset</textarea>
+
                                 </div>
                             </div>
                         </div>

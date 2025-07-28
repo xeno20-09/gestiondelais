@@ -225,7 +225,7 @@
                                                             @if ($user->type == 'avocat_conseil')
                                                                 Maître {{ $user->nom_complet }},
                                                             @elseif($user->type == 'avocat_individuel')
-                                                                Conseil {{ $user->nom_complet }},
+                                                                Cabinet {{ $user->nom_complet }},
                                                             @endif
                                                         </h1>
                                                         <table class="s-4 w-full" role="presentation" border="0"

@@ -26,15 +26,15 @@
                                         <td>{{ $item->date_enregistrement }}</td>
                                         <td>{{ $item->etat_dossier }}</td>
                                         <td>
-                                            <div class="d-flex flex-wrap gap-1">
+                                            <div class="d-flex flex-wrap gap-1" style="justify-content: space-around;">
                                                 <a class="badge badge-inverse-primary"
                                                     href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
                                                 <a class="badge badge-inverse-info"
                                                     href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
-                                                @if (Auth::user()->role == 'PCA' || Auth::user()->role == 'PCJ')
+                                                {{--     @if (Auth::user()->role == 'PCA' || Auth::user()->role == 'PCJ')
                                                     <a class="badge badge-inverse-warning"
                                                         href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}">Réaffectés</a>
-                                                @endif
+                                                @endif --}}
                                             </div>
                                         </td>
                                     </tr>

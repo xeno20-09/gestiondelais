@@ -3,7 +3,7 @@
     <div class="container mt-5">
         <h2 class="mb-4">Liste des Mesures d'instructions</h2>
 @can('instruction-create')
-            <a href="{{ route('mesure_instructions.create') }}" class="btn btn-info btn-sm">Ajouter une titre</a>
+            <a href="{{ route('mesure_instructions.create') }}" class="btn btn-info btn-sm mb-5">Ajouter une mesure d'instruction</a>
             @endcan
             <br>
         <table class="table table-bordered table-hover">
@@ -11,7 +11,10 @@
                 <tr>
                     <th>Description</th>
                     <th>Délais</th>
+                                     @if(Auth::user()->can('instruction-edit') && Auth::user()->can('instruction-delete'))
+
                     <th>Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +22,9 @@
                     <tr>
                         <td>{{ $instruction->nom }}</td>
                         <td>{{ $instruction->delais }}</td>
-                        <td>
+                                         @if(Auth::user()->can('instruction-edit') && Auth::user()->can('instruction-delete'))
+
+                        <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                             @can('instruction-edit')
                                 <a href="{{ route('mesure_instructions.edit', $instruction->id) }}"
                                     class="btn btn-info btn-sm">Modifier
@@ -33,6 +38,7 @@
                                 </form>
                             @endcan
                         </td>
+                        @endif
                     </tr>
                 @endforeach
 

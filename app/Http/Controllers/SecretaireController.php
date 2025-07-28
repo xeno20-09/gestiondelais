@@ -8,12 +8,18 @@ use App\Models\Recours;
 use App\Models\Defendeur;
 use App\Models\Requerant;
 use App\Models\Structure;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RecoursInitPresident;
 use Illuminate\Http\Request;
 use App\Models\AvocatDefendeur;
 use App\Models\AvocatRequerant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SecretaireController extends Controller
 {
+
     public function home()
     {
         return view('Recours.Secretaire.home', ['recours' => Recours::all()]);
@@ -68,6 +74,15 @@ class SecretaireController extends Controller
         $partie->requerant_id = $requerant->id;
         $partie->defendeur_id = $defendeur->id;
         $partie->save();
+       if ($request->chambre_id==1) {
+            $president=User::where('email','pca@gmail.com')->get()[0];
+        } else {
+            $president=User::where('email','pcj@gmail.com')->get()[0];
+        }
+        
+               Mail::to('allegressecakpo93@gmail.com')->send(
+                            new RecoursInitPresident($president,$recours)
+                        );
         return redirect()->route('get_liste');
     }
     public function getlisterecours()
@@ -86,5 +101,24 @@ class SecretaireController extends Controller
     {
         $recours = Recours::find($request->id);
         return view('Recours.Secretaire.historiquerecours', compact('recours'));
+    }
+
+    public function changepwdview(){
+        $user=Auth::user();        
+                return view('auth.passwords.changepassword', compact('user'));
+
+    }
+    public function change_pwd(Request $request){
+         $user=Auth::user();
+    if (Hash::check($request->password, $user->password)) {
+        return back()->with('error', 'Le nouveau mot de passe ne peut pas être identique à l\'ancien.');
+    }
+    else{
+
+         $user->password= Hash::make($request->password);
+         $user->update();
+Auth::logout();            return redirect('/');
+    }
+
     }
 }

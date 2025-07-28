@@ -104,6 +104,13 @@ Route::prefix('/recours')
         Route::get('/get/form/recours/a_affecte/cj', [PresidentController::class, 'getformrecours_a_affecte'])->name('pcj.get_form_affecte');
         Route::post('/post/form/recours/a_affecte/cj', [PresidentController::class, 'postformrecours_a_affecte'])->name('pcj.post_form_affecte');
     */
+
+        //All user
+        Route::get('/change/password', [SecretaireController::class, 'changepwdview'])->name('change_pwd_view');
+                Route::post('/change/password', [SecretaireController::class, 'change_pwd'])->name('password_change');
+
+
+        
     });
 /* 
 Route::prefix('/recours')

@@ -2,7 +2,7 @@
 @section('content')
     <div class="container mt-5">
         @can('role-create')
-            <a href="{{ route('roles.create') }}" class="btn btn-info btn-sm">Ajouter un role</a>
+            <a href="{{ route('roles.create') }}" class="btn btn-info btn-sm mb-5">Ajouter un role</a>
         @endcan
         <h2 class="mb-4">Liste des roles</h2>
 
@@ -17,7 +17,7 @@
                 @foreach ($roles as $role)
                     <tr>
                         <td>{{ $role->name }}</td>
-                        <td>
+                        <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                             @can('user-edit')
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-info btn-sm">Modifier</a>
                             @endcan

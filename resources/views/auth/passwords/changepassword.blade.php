@@ -2,12 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmation du mot de passe</title>
+    <title>Changement du mot de passe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         * {
@@ -119,28 +120,25 @@
 <body>
 
     <div class="card">
-        <h2>Confirmer le mot de passe</h2>
-        <p>Veuillez confirmer votre mot de passe avant de continuer.</p>
+        <h2>Changer le mot de passe</h2>
+@if (session('error'))
+    <div class="alert alert-warning" role="alert">
+        {{ session('error') }}
+    </div>
+@endif
 
-        <form method="POST" action="{{ route('password.confirm') }}">
+        <form method="POST" action="{{ route('password_change') }}">
             @csrf
 
             <input id="password" type="password"
                 class="form-control @error('password') is-invalid @enderror"
-                name="password" required placeholder="Mot de passe"
-                autocomplete="current-password">
+                name="password" required placeholder="Mot de passe">
 
             @error('password')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
 
-            <button type="submit" class="btn">Confirmer</button>
-
-            @if (Route::has('password.request'))
-                <a class="btn-link" href="{{ route('password.request') }}">
-                    Mot de passe oublié ?
-                </a>
-            @endif
+            <button type="submit" class="btn">Changer</button>
         </form>
     </div>
 

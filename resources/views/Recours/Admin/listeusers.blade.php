@@ -1,7 +1,7 @@
   @extends('layouts.header')
   @section('content')
       <div class="col-12 grid-margin">
-          <a href="{{ route('form.add.user') }}" class="btn btn-info btn-sm">Ajouter un utilisateur</a>
+          <a href="{{ route('form.add.user') }}" class="btn btn-info btn-sm mb-5">Ajouter un utilisateur</a>
           <div class="card">
               <div class="card-body px-0 overflow-auto">
 
@@ -41,7 +41,7 @@
                                       <td>{{ $item->structure->nom_structure ?? null }}</td>
                                       <td>{{ $item->section->code_section ?? null }}</td>
 
-                                      <td>
+                                      <td style="display: flex;flex-direction: row;justify-content: space-around; ">
                                           @can('user-edit')
                                               <a href="{{ route('modify_users_info', ['id' => $item->id]) }}">
                                                   <div class="badge badge-inverse-success"> Modifier </div>
