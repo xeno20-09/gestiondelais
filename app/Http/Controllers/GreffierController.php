@@ -27,7 +27,7 @@ class GreffierController extends Controller
     public function getlisterecours_en_instructions()
     {
         $chambre = Auth::user()->structure_id;
-        $pre_recours = Recours::where('etat_dossier', 'A Instruire')->orwhere('etat_dossier', 'En instruction')->where('structure_id', $chambre)->get();
+        $pre_recours = Recours::where('etat_dossier', 'A Instruire')->orwhere('etat_dossier', 'En instruction')->where('structure_id', $chambre)->orderby('created_at', 'desc')->get();
         $recours = [];
         foreach ($pre_recours as $value) {
             $mouvement = $value->lastMouvement;

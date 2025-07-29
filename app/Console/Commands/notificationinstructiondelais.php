@@ -37,14 +37,14 @@ class notificationinstructiondelais extends Command
             $today = Carbon::today();
 
             $mouvements = Mouvement::where('etat_instruction', 'Contacté')
-                ->whereDate('date_fin_instruction', '<', $today)
+                ->whereDate('date_fin_instruction', '>=', $today)
                 ->get();
 
             foreach ($mouvements as $mouvement) {
                 try {
                     $dateFin = Carbon::parse($mouvement->date_fin_instruction);
                     $joursRestants = $today->diffInDays($dateFin, false);
-
+                    Log::info("Mouvement ID: {$mouvement->id} | Fin: {$dateFin->toDateString()} | Jours Restants: $joursRestants");
                     $this->getMessage($joursRestants, $mouvement, $dateFin);
                 } catch (\Throwable $e) {
                     Log::error('Erreur sur un mouvement : ' . $e->getMessage());

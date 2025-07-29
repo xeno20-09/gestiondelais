@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Objet;
 use App\Models\Partie;
 use App\Models\Recours;
 use App\Models\Defendeur;
+use App\Models\Mouvement;
 use App\Models\Requerant;
 use App\Models\Structure;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RecoursInitPresident;
 use Illuminate\Http\Request;
 use App\Models\AvocatDefendeur;
 use App\Models\AvocatRequerant;
+use App\Mail\RecoursInitPresident;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SecretaireController extends Controller
 {
@@ -74,20 +75,32 @@ class SecretaireController extends Controller
         $partie->requerant_id = $requerant->id;
         $partie->defendeur_id = $defendeur->id;
         $partie->save();
-       if ($request->chambre_id==1) {
-            $president=User::where('email','pca@gmail.com')->get()[0];
+        if ($request->chambre_id == 1) {
+            $president = User::where('email', 'pca@gmail.com')->get()[0];
         } else {
-            $president=User::where('email','pcj@gmail.com')->get()[0];
+            $president = User::where('email', 'pcj@gmail.com')->get()[0];
         }
-        
-               Mail::to('allegressecakpo93@gmail.com')->send(
-                            new RecoursInitPresident($president,$recours)
-                        );
+
+        Mail::to('allegressecakpo93@gmail.com')->send(
+            new RecoursInitPresident($president, $recours)
+        );
         return redirect()->route('get_liste');
     }
     public function getlisterecours()
     {
-        $recours = Recours::all();
+        if (Auth::user()->role == 'CONSEILLER') {
+            $recours = Recours::whereHas('partie', function ($query) {
+                $query->where('conseiller_id', Auth::user()->id);
+            })->get();
+        } elseif (Auth::user()->role == 'GREFFIER') {
+            $recours = Recours::whereHas('partie', function ($query) {
+                $query->where('greffier_id', Auth::user()->id);
+            })->get();
+        } elseif (Auth::user()->role == 'SECRETAIRE' || Auth::user()->titre == 'PRESIDENT DE STRUCTURE') {
+            $recours = Recours::where('structure_id', Auth::user()->structure_id)->orderBy('created_at', 'desc')->get();
+        } else {
+            $recours = Recours::orderBy('created_at', 'desc')->get();
+        }
 
         return view('Recours.Secretaire.liste_recours', compact('recours'));
     }
@@ -103,22 +116,22 @@ class SecretaireController extends Controller
         return view('Recours.Secretaire.historiquerecours', compact('recours'));
     }
 
-    public function changepwdview(){
-        $user=Auth::user();        
-                return view('auth.passwords.changepassword', compact('user'));
-
+    public function changepwdview()
+    {
+        $user = Auth::user();
+        return view('auth.passwords.changepassword', compact('user'));
     }
-    public function change_pwd(Request $request){
-         $user=Auth::user();
-    if (Hash::check($request->password, $user->password)) {
-        return back()->with('error', 'Le nouveau mot de passe ne peut pas être identique à l\'ancien.');
-    }
-    else{
+    public function change_pwd(Request $request)
+    {
+        $user = Auth::user();
+        if (Hash::check($request->password, $user->password)) {
+            return back()->with('error', 'Le nouveau mot de passe ne peut pas être identique à l\'ancien.');
+        } else {
 
-         $user->password= Hash::make($request->password);
-         $user->update();
-Auth::logout();            return redirect('/');
-    }
-
+            $user->password = Hash::make($request->password);
+            $user->update();
+            Auth::logout();
+            return redirect('/');
+        }
     }
 }

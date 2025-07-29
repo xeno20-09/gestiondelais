@@ -255,19 +255,20 @@
                     </li>
                 @endcan
 
-                                @if (Auth::user())
-<li class="nav-item sidebar-actions">
-                    <div class="nav-link">
-                        <div class="mt-4">
-                            <ul class="mt-4 pl-0">
-                        <a class="btn btn-warning" href="{{ route('change_pwd_view') }}" role="button" style="color:white;">Modifier le mot de passe</a>
-      </ul>
-                        </div>                        </div>
+                @if (Auth::user())
+                    <li class="nav-item sidebar-actions">
+                        <div class="nav-link">
+                            <div class="mt-4">
+                                <ul class="mt-4 pl-0">
+                                    <a class="btn btn-warning" href="{{ route('change_pwd_view') }}" role="button"
+                                        style="color:white;">Modifier le mot de passe</a>
+                                </ul>
+                            </div>
+                        </div>
 
                     </li>
+                @endif
 
-                                @endif
-                 
 
 
                 <li class="nav-item sidebar-actions">
@@ -436,6 +437,24 @@
                     ordering: true,
                 });
                 $('#recoursTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                    },
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                });
+
+                $('#recoursInstruireTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+                    },
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                });
+
+                $('#recoursAffecteTable').DataTable({
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
                     },

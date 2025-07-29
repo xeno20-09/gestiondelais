@@ -17,14 +17,14 @@ class PresidentController extends Controller
     public function home()
     {
         $chambre = Auth::user()->structure_id;
-        $recours = Recours::where('etat_dossier', 'Nouveau')->where('structure_id', $chambre)->get();
+        $recours = Recours::where('etat_dossier', 'Nouveau')->where('structure_id', $chambre)->orderby('created_at', 'desc')->get();
         $countrecours = count($recours);
         return view('Recours.President.home', compact('recours', 'countrecours'));
     }
     public function getlisterecours_a_affectes()
     {
         $chambre = Auth::user()->structure_id;
-        $recours = Recours::where('etat_dossier', 'Nouveau')->orwhere('etat_dossier', 'Affecté')->where('structure_id', $chambre)->get();
+        $recours = Recours::where('etat_dossier', 'Nouveau')->orwhere('etat_dossier', 'Affecté')->where('structure_id', $chambre)->orderby('created_at', 'desc')->get();
         $countrecours = count($recours);
         return view('Recours.President.listerecoursa_affectes', compact('recours', 'countrecours'));
     }
@@ -34,7 +34,7 @@ class PresidentController extends Controller
         $id = $request->id;
         $recours = Recours::find($id);
         $chambre = Auth::user()->structure_id;
-        $countrecours = count(Recours::where('etat_dossier', 'Nouveau')->where('structure_id', $chambre)->get());
+        $countrecours = count(Recours::where('etat_dossier', 'Nouveau')->where('structure_id', $chambre)->orderby('created_at', 'desc')->get());
         return view('Recours.President.form_recoursa_affecte', compact('recours', 'countrecours'));
     }
 
@@ -73,22 +73,22 @@ class PresidentController extends Controller
         $partie->auditeur_id = $request->auditeur;
         $partie->update();
 
-        
-                    Mail::to('allegressecakpo93@gmail.com')->send(
-                        new AffecteRecours($recours, $partie->conseiller)
-                    );
-                
 
-                
-                    Mail::to('adelecakpo150@gmail.com')->send(
-                        new AffecteRecours($recours, $partie->auditeur)
-                    );
-                
-                
-                    Mail::to('allegressecakpo93@gmail.com')->send(
-                        new AffecteRecours($recours, $partie->greffier)
-                    );
-                
+        Mail::to('allegressecakpo93@gmail.com')->send(
+            new AffecteRecours($recours, $partie->conseiller)
+        );
+
+
+
+        Mail::to('adelecakpo150@gmail.com')->send(
+            new AffecteRecours($recours, $partie->auditeur)
+        );
+
+
+        Mail::to('allegressecakpo93@gmail.com')->send(
+            new AffecteRecours($recours, $partie->greffier)
+        );
+
         return redirect()->route('get_liste');
     }
 
@@ -137,21 +137,21 @@ class PresidentController extends Controller
         $partie->conseiller_id = $request->conseiller;
         $partie->auditeur_id = $request->auditeur;
         $partie->update();
-               
-                    Mail::to('allegressecakpo93@gmail.com')->send(
-                        new ReaffecteRecours($recours, $partie->conseiller)
-                    );
-                
 
-                
-                    Mail::to('adelecakpo150@gmail.com')->send(
-                        new ReaffecteRecours($recours, $partie->auditeur)
-                    );
-                
-                
-                    Mail::to('allegressecakpo93@gmail.com')->send(
-                        new ReaffecteRecours($recours, $partie->greffier)
-                    );
+        Mail::to('allegressecakpo93@gmail.com')->send(
+            new ReaffecteRecours($recours, $partie->conseiller)
+        );
+
+
+
+        Mail::to('adelecakpo150@gmail.com')->send(
+            new ReaffecteRecours($recours, $partie->auditeur)
+        );
+
+
+        Mail::to('allegressecakpo93@gmail.com')->send(
+            new ReaffecteRecours($recours, $partie->greffier)
+        );
         return redirect()->route('get_liste');
     }
     /*     }
