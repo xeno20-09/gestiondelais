@@ -31,10 +31,13 @@
                                                     href="{{ route('get_detail', ['id' => $item->id]) }}">Détail</a>
                                                 <a class="badge badge-inverse-info"
                                                     href="{{ route('get_history_recours', ['id' => $item->id]) }}">Historique</a>
-                                                {{--     @if (Auth::user()->role == 'PCA' || Auth::user()->role == 'PCJ')
+                                                @if ((Auth::user()->role == 'SECRETAIRE' || Auth::user()->role == 'GREFFIER') && $item->etat_dossier == 'Nouveau')
                                                     <a class="badge badge-inverse-warning"
-                                                        href="{{ route('getlisterecours_a_reaffectes', ['id' => $item->id]) }}">Réaffectés</a>
-                                                @endif --}}
+                                                        href="{{ route('getformrecours_modifiy', ['id' => $item->id]) }}">
+                                                        Modifier
+                                                    </a>
+                                                @endif
+
                                             </div>
                                         </td>
                                     </tr>

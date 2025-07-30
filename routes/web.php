@@ -74,7 +74,11 @@ Route::prefix('/recours')
             ->name('form.recours.create');
         Route::post('form/create/post', [SecretaireController::class, 'formulaire_recours_creation_post'])
             ->name('form.recours.create.post');
-
+Route::get('form/update', [SecretaireController::class, 'formulaire_recours_update'])
+            ->name('getformrecours_modifiy');
+            
+        Route::put('form/update/post', [SecretaireController::class, 'formulaire_recours_update_post'])
+            ->name('form.recours.update.post');
         //GREFFIER
         Route::get('/home/greffier', [GreffierController::class, 'home']);
         Route::get('/get/liste/recours/en_instructions', [GreffierController::class, 'getlisterecours_en_instructions'])->name('getlisterecours_en_instructions');
@@ -107,7 +111,7 @@ Route::prefix('/recours')
 
         //All user
         Route::get('/change/password', [SecretaireController::class, 'changepwdview'])->name('change_pwd_view');
-                Route::post('/change/password', [SecretaireController::class, 'change_pwd'])->name('password_change');
+        Route::post('/change/password', [SecretaireController::class, 'change_pwd'])->name('password_change');
 
 
         

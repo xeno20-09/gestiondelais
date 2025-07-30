@@ -134,4 +134,48 @@ class SecretaireController extends Controller
             return redirect('/');
         }
     }
+    public function formulaire_recours_update(Request $request){
+        $objets = Objet::all();
+        $recours=Recours::find($request->id);
+        return view('Recours.Secretaire.form_mj_recours', ['recours' =>$recours , 'objets' => $objets]);
+    }
+
+    public function formulaire_recours_update_post(Request $request)
+    {
+        $recours=Recours::find($request->id);
+    //dd($recours,$recours->partie->defendeur);
+
+        $recours->numero_dossier = $request->dossier_numero;
+        $recours->date_enregistrement = $request->date_enregistrement;
+        $recours->structure_id = $request->chambre_id;
+        $recours->objet_id = $request->objet_id;
+        $recours->etat_dossier = 'Nouveau';
+        $recours->update();
+
+        $avocat_defendeur =$recours->partie->avocats_defendeurs;
+        $avocat_defendeur->nom_complet = $request->nom_avocat_defendeur;
+        $avocat_defendeur->type = $request->type_avocat_defendeur;
+        $avocat_defendeur->email = $request->email_avocat_defendeur;
+        $avocat_defendeur->update();
+
+        $avocat_requerant = $recours->partie->avocats_requerants;
+        $avocat_requerant->nom_complet = $request->nom_avocat_requerant;
+        $avocat_requerant->type = $request->type_avocat_requerant;
+        $avocat_requerant->email = $request->email_avocat_requerant;
+        $avocat_requerant->update();
+
+        $defendeur =$recours->partie->defendeur;
+        $defendeur->nom_complet = $request->nom_defendeur;
+        $defendeur->domicile = $request->domicile_defendeur;
+        $defendeur->type_personne = $request->type_defendeur;
+        $defendeur->update();
+
+        $requerant = $recours->partie->requerant;
+        $requerant->nom_complet = $request->nom_requerant;
+        $requerant->domicile = $request->domicile_requerant;
+        $requerant->type_personne = $request->type_requerant;
+        $requerant->update();
+
+        return redirect()->route('get_liste');
+    }
 }
