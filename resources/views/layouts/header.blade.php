@@ -425,17 +425,54 @@
         <!-- DataTables JS -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- DataTables JS + Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
 
+<!-- JSZip + pdfmake for Excel and PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
         <script>
             $(document).ready(function() {
-                $('#usersTable').DataTable({
+  /*               $('#usersTable').DataTable({
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
                     },
                     paging: true,
                     searching: true,
                     ordering: true,
-                });
+                }); */
+               $('#usersTable').DataTable({
+    dom: 'Bfrtip',  // Pour afficher les boutons au-dessus
+    buttons: [
+        {
+            extend: 'pdf',
+            text: 'PDF',
+            className: 'btn btn-primary',
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4,]
+            }
+        },
+        {
+            extend: 'print',
+            text: 'Imprimer',
+            className: 'btn btn-primary',
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4,]
+            }
+        }
+    ],
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
+    },
+    paging: true,
+    searching: true,
+    ordering: true
+});
+
                 $('#recoursTable').DataTable({
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
@@ -472,6 +509,23 @@
                     ordering: true,
                     info: true
                 });
+
+/*                 $(document).ready(function () {
+    $('#maTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',     // Copier dans le presse-papier
+            'csv',      // Export CSV
+            'excel',    // Export Excel
+            'pdf',      // Export PDF
+            'print'     // Impression
+        ],
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json"
+        }
+    });
+}); */
+
 
             });
         </script>
